@@ -17,7 +17,9 @@ class Paging {
         $data["m_user"] = "m_users";
         $data["m_company"] = "m_companies";
         $data["m_form"] = "m_forms";
-        $data["r_report"] = "r_reports";
+        $data["r_report"] = "r_reports";;
+        $data["m_groupplayer"] = "m_groupplayers";
+        $data["m_player"] = "m_players";
         return $data;
     }
 

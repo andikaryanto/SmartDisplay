@@ -10,7 +10,7 @@
   <div class="container-fluid">
     <!-- Page Header-->
     <header> 
-          <h1 class="h3 display"><?= lang('ui_master_groupuser')?> </h1>
+          <h1 class="h3 display"><?= lang('ui_master_groupplayer')?> </h1>
       </tr>
     </header>
     <div class="row">
@@ -23,7 +23,7 @@
                 <h4><?= lang('ui_data')?></h4>
               </div>
               <div class="col-6 text-right">
-                <a href="<?= base_url('mgroupuser/add')?>"><i class = "fa fa-plus"></i> Tambah</a>
+                <a href="<?= base_url('mgroupplayer/add')?>"><i class = "fa fa-plus"></i> Tambah</a>
               </div>
             </div>
           </div>
@@ -54,12 +54,10 @@
                   {
                 ?>
                     <tr role = "row" id = <?= $value->Id?>>
-                      <td><a href= "<?= base_url('mgroupuser/edit/'.$value->Id);?>" class = "text-muted"><?= $value->GroupName?></a></td>
+                      <td><a href= "<?= base_url('mgroupplayer/edit/'.$value->Id);?>" class = "text-muted"><?= $value->GroupName?></a></td>
                       <td><?= $value->Description?></td>
                       <td><?= $value->Created?></td>
                       <td class = "td-actions text-right">
-                        <a href="#" rel="tooltip" title="<?=  lang('ui_role')?>" class="btn-just-icon link-action role"><i class="fa fa-user"></i></a>
-                        <a href="#" rel="tooltip" title="<?=  lang('ui_reportrole')?>" class="btn-just-icon link-action reportrole"><i class="fa fa-list"></i></a>
                         <a href="#" rel="tooltip" title="<?=  lang('ui_delete')?>" class="btn-just-icon link-action delete"><i class="fa fa-trash"></i></a>
                       </td>
                     </tr>
@@ -121,7 +119,7 @@
             
             $.ajax({
               type : "POST",
-              url : "<?= base_url('mgroupuser/delete/');?>",
+              url : "<?= base_url('mgroupplayer/delete/');?>",
               data : {id : id},
               success : function(data){
                 var status = $.parseJSON(data);
@@ -147,19 +145,6 @@
           }
         });
      });
-
-    //Like record
-    table.on( 'click', '.role', function () {
-        $tr = $(this).closest('tr');
-        var id = $tr.attr('id');
-        window.location = "<?= base_url('mgroupuser/editrole/');?>" + id;
-    });
-
-    table.on( 'click', '.reportrole', function () {
-        $tr = $(this).closest('tr');
-        var id = $tr.attr('id');
-        window.location = "<?= base_url('mgroupuser/editreportrole/');?>" + id;
-    });
   }
 
   function init(){

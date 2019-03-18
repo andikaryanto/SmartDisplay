@@ -404,4 +404,8 @@ $lang['ui_operatingexpense'] = "Beban Usaha";
 $lang['ui_operatingprofit'] = "Laba Usaha";
 $lang['ui_otherincome'] = "Pendapatan Lain - lain";
 $lang['ui_netprofit'] = "Laba Bersih";
+$lang['ui_groupplayer'] = "Grup Player";
+$lang['ui_master_groupplayer'] = "Master Grup Player";
+$lang['ui_master_player'] = "Master Player";
+$lang['ui_player'] = "Player";
 

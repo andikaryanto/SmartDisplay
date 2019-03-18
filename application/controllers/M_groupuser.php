@@ -98,7 +98,6 @@ class M_groupuser extends CI_Controller
 
         $model = $this->M_groupusers->get($id);
         $oldmodel = clone $model;
-        echo json_encode($oldmodel);
         $model->GroupName = $name;
         $model->Description = $description;
         $model->ModifiedBy = $_SESSION[get_variable().'userdata']['Username'];

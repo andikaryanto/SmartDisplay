@@ -387,6 +387,10 @@ $lang['ui_operatingexpense'] = "Operating Expense";
 $lang['ui_operatingprofit'] = "Operating Profit";
 $lang['ui_otherincome'] = "Other Income";
 $lang['ui_netprofit'] = "Net Profit";
+$lang['ui_groupplayer'] = "Group Player";
+$lang['ui_master_groupplayer'] = "Master Group Player";
+$lang['ui_master_player'] = "Master Player";
+$lang['ui_player'] = "Player";
 
 
 

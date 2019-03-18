@@ -80,7 +80,16 @@
             </li>
             <li><a href="#exampledropdownDropdownMaster" aria-expanded="false" data-toggle="collapse"> <i class="icon-interface-windows"></i>Master</a>
               <ul id="exampledropdownDropdownMaster" class="collapse list-unstyled ">
-                <li><a href="<?=  base_url('mainsetup');?>"><?= lang('ui_mainsetup')?></a></li>
+              <?php 
+              foreach($mastermenu as $master) {
+                if(is_permitted($_SESSION[get_variable().'userdata']['M_Groupuser_Id'], $master->FormName, "Read")){
+              ?>
+                <li><a href="<?= base_url($master->IndexRoute);?>"><?= lang($master->Resource)?></a></li>
+              <?php 
+                }
+              }
+              ?>
+                
               </ul>
             </li>
             <li><a href="#exampledropdownDropdownTransaction" aria-expanded="false" data-toggle="collapse"> <i class="icon-interface-windows"></i><?= lang('ui_transaction')?></a>

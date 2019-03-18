@@ -80,22 +80,22 @@ $route['changePassword'] = 'm_user/changePassword';
 $route['saveChangePassword'] = 'm_user/saveNewPassword';
 $route['settings'] = 'm_user/setting';
 $route['savesettings'] = 'm_user/savesetting';
-$route['saveprofile'] = 'm_user/saveprofile';
+$route['saveprofile'] = 'm_user/saveprofile';   
 $route['profile'] = 'm_user/profile';
 
-$route['mchartofaccount'] = 'm_chartofaccount';
-$route['mchartofaccount/add'] = 'm_chartofaccount/add';
-$route['mchartofaccount/addsave'] = 'm_chartofaccount/addsave';
-$route['mchartofaccount/edit/(:num)'] = 'm_chartofaccount/edit/$1';
-$route['mchartofaccount/editsave'] = 'm_chartofaccount/editsave';
-$route['mchartofaccount/delete'] = 'm_chartofaccount/delete';
+$route['mgroupplayer'] = 'm_groupplayer';
+$route['mgroupplayer/add'] = 'm_groupplayer/add';
+$route['mgroupplayer/addsave'] = 'm_groupplayer/addsave';
+$route['mgroupplayer/edit/(:num)'] = 'm_groupplayer/edit/$1';
+$route['mgroupplayer/editsave'] = 'm_groupplayer/editsave';
+$route['mgroupplayer/delete'] = 'm_groupplayer/delete';
 
-$route['mbeginningbalance'] = 'm_beginningbalance';
-$route['mbeginningbalance/add'] = 'm_beginningbalance/add';
-$route['mbeginningbalance/addsave'] = 'm_beginningbalance/addsave';
-$route['mbeginningbalance/edit/(:num)'] = 'm_beginningbalance/edit/$1';
-$route['mbeginningbalance/editsave'] = 'm_beginningbalance/editsave';
-$route['mbeginningbalance/delete'] = 'm_beginningbalance/delete';
+$route['mplayer'] = 'm_player';
+$route['addplayer'] = 'm_player/add';
+$route['mplayer/addsave'] = 'm_player/addsave';
+$route['mplayer/edit/(:num)'] = 'm_player/edit/$1';
+$route['mplayer/editsave'] = 'm_player/editsave';
+$route['mplayer/delete'] = 'm_player/delete';
 
 $route['mcompany'] = 'm_company';
 $route['mcompany/add'] = 'm_company/add';
@@ -103,13 +103,6 @@ $route['mcompany/addsave'] = 'm_company/addsave';
 $route['mcompany/edit/(:num)'] = 'm_company/edit/$1';
 $route['mcompany/editsave'] = 'm_company/editsave';
 $route['mcompany/delete'] = 'm_company/delete';
-
-$route['tjournal'] = 't_journal';
-$route['tjournal/add'] = 't_journal/add';
-$route['tjournal/addsave'] = 't_journal/addsave';
-$route['tjournal/edit/(:num)'] = 't_journal/edit/$1';
-$route['tjournal/editsave'] = 't_journal/editsave';
-$route['tjournal/delete'] = 't_journal/delete';
 
 $route['report'] = 'reports';
 $route['report/submission_payment_receipt_pdf/(:num)'] = 'reports/submission_payment_receipt_pdf/$1';
