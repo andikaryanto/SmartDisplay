@@ -1,0 +1,13 @@
+/* your styles go here */
+.required label:after {
+    color: #e32;
+    content: ' *';
+    display:inline;
+}
+
+.link-action{
+    margin:0 10px;
+}
+.link-action{
+    margin : 0 10px;
+}

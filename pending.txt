@@ -1,0 +1,6 @@
+-- kode coa harus ikut urutan bapaknya otomastis
+    jika isi 02 pada parent 1110,, kode harus 1110-02
+-- stiap tipe jurnal kudu punya kode dan urutan sendiri BKN/../000001, JRN/../000001 --done
+-- stipa buka laopran check setup company --done
+-- stiap buka transaksi jurnal cek setup transaksi
+-- balik ke index dalam bentuk button --done
