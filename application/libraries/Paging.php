@@ -15,21 +15,15 @@ class Paging {
     {
         $data["m_groupuser"] = "m_groupusers";
         $data["m_user"] = "m_users";
-        $data["m_chartofaccount"] = "m_chartofaccounts";
         $data["m_company"] = "m_companies";
         $data["m_form"] = "m_forms";
         $data["r_report"] = "r_reports";
-        $data["t_journal"] = "t_journals";
-        $data["m_beginningbalance"] = "m_beginningbalances";
         return $data;
     }
 
     public function get_report_name_id()
     {
         $data["journal"] = "Journal";
-        $data["generalledger"] = "GeneralLedger";
-        $data["trialbalance"] = "TrialBalance";
-        $data["profitloss"] = "ProfitLoss";
         return $data;
     }
     
