@@ -34,16 +34,23 @@ class M_player extends CI_Controller
         
         // redirect("M_groupuser/add?param=1");
         $form = $this->paging->get_form_name_id();
-        if($_SESSION[get_variable().'userdata']['Username'] == "superadmin")
+        if(is_permitted($_SESSION[get_variable().'userdata']['M_Groupuser_Id'],$form['m_player'],'Write'))
         {
             
             $model = $this->M_players->new_object();
-            $data =  $this->paging->set_data_page_add($model);
-            load_view('m_player/add', $data);   
+            
+            $validate = $this->M_players->validate($model, null, true);
+            if($validate)
+            {
+                $this->session->set_flashdata('add_warning_msg',$validate); 
+                redirect('mplayer');
+            } else {
+                $data = $this->paging->set_data_page_add($model);
+                load_view('m_player/add', $data);   
+            }
         }
         else
         {
-            
             $this->load->view('forbidden/forbidden');
         }
     }
@@ -74,7 +81,10 @@ class M_player extends CI_Controller
             $model->save();
             $successmsg = $this->paging->get_success_message();
             $this->session->set_flashdata('success_msg', $successmsg);
-            redirect('addplayer');
+            if($this->M_players->count() >= $this->M_playerslots->get(1)->Count)
+                redirect('mplayer');
+            else 
+                redirect('mplayer/add');
         }
     }
 

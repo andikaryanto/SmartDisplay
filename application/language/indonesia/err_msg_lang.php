@@ -40,3 +40,4 @@ $lang['err_msg_item_sold_out'] = "item yang anda pilih telah habis, Keranjang di
 $lang['err_msg_amount_must_greaterthan_zero'] = "Nominal harus lebih dari 0";
 $lang['err_msg_description_cannot_null'] = "Deskripsi tidak boleh kosong";
 $lang['err_msg_please_set_company'] = "Silakan isi informasi perusahaan terlebih dulu";
+$lang['err_msg_no_player_slots_left'] = "Tidak ada slot player tersisa";

@@ -18,6 +18,8 @@
     <script src="<?= base_url('assets/bootstrapdashboard/vendor/bootstrap/js/plugins/bootstrap-select.min.js');?>"></script>
     <script src="<?= base_url('assets/bootstrapdashboard/vendor/bootstrap/js/plugins/bootstrap-datepicker.min.js');?>"></script>
     <script src="<?= base_url('assets/bootstrapdashboard/vendor/bootstrap/js/plugins/bootstrap-datepicker.id.min.js');?>"></script>
+    <script src="<?= base_url('assets/bootstrapdashboard/vendor/bootstrap/js/plugins/moment.min.js');?>"></script>
+    <script src="<?= base_url('assets/bootstrapdashboard/vendor/bootstrap/js/plugins/bootstrap-datetimepicker.min.js');?>"></script>
     <!-- <script src="<?= base_url('assets/bootstrapdashboard/js/file/custom-file-input.js');?>"></script> -->
     <script src="<?= base_url('assets/bootstrapdashboard/vendor/popper.js/umd/popper.min.js');?>"> </script>
     <script src="<?= base_url('assets/bootstrapdashboard/js/grasp_mobile_progress_circle-1.0.0.min.js');?>"></script>
@@ -37,8 +39,19 @@
 </html>
 <script>
   $('.datepicker').datepicker({
+    format: 'dd-mm-yyyy',
     language: 'id'
   });
+
+  $('.timepicker').datetimepicker({
+        format: 'HH:mm',
+        icons: {
+            time: "fa fa-clock-o",
+            date: "fa fa-calendar",
+            up: "fa fa-arrow-up",
+            down: "fa fa-arrow-down"
+        }
+    });
 
   // $(function () {
   //   $('[data-toggle="popover"]').popover()

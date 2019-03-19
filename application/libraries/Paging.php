@@ -20,6 +20,7 @@ class Paging {
         $data["r_report"] = "r_reports";;
         $data["m_groupplayer"] = "m_groupplayers";
         $data["m_player"] = "m_players";
+        $data["m_event"] = "m_events";
         return $data;
     }
 

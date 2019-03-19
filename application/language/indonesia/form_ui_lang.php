@@ -408,4 +408,9 @@ $lang['ui_groupplayer'] = "Grup Player";
 $lang['ui_master_groupplayer'] = "Master Grup Player";
 $lang['ui_master_player'] = "Master Player";
 $lang['ui_player'] = "Player";
+$lang['ui_slotleft'] = "Slot Tersisa";
+$lang['ui_master_event'] = "Master Even";
+$lang['ui_even'] = "Even";
+$lang['ui_timestart'] = "Waktu Mulai";
+$lang['ui_timeend'] = "Waktu Selesai";
 

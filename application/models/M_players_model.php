@@ -6,8 +6,55 @@ class M_players_model extends MY_Model {
         parent::__construct();
     }
 
-    public function validate($model, $oldmodel = null){
-        //validate goes here
+    public function slotLeft(){
+        $existPlayerCount = $this->count();
+        $slots = $this->M_playerslots->get(1)->Count;
+        return $slots - $existPlayerCount;
+    }
+
+    public function is_data_exist($name = null)
+    {
+        $exist = false;
+        if($this->count(array('Name'=> $name)) > 0){
+            $exist = true;
+        }
+        return $exist;
+    }
+
+    public function validate($model, $oldmodel = null, $isOnCreate = false)
+    {
+        $nameexist = false;
+        $warning = array();
+        if($isOnCreate){
+            $existPlayerCount = $this->count();
+            $slots = $this->M_playerslots->get(1)->Count;
+            if($existPlayerCount >= $slots){
+                $warning = array_merge($warning, array(0=>'err_msg_no_player_slots_left'));
+            }
+        } else {
+            if(!empty($oldmodel))
+            {
+                if($model->Name != $oldmodel->Name)
+                {
+                    $nameexist = $this->is_data_exist($model->Name);
+                }
+            }
+            else{
+                if(!empty($model->Name))
+                {
+                    $nameexist = $this->is_data_exist($model->Name);
+                }
+                else{
+                    $warning = array_merge($warning, array(0=>'ui_msg_name_can_not_null'));
+                }
+            }
+            if($nameexist)
+            {
+                $warning = array_merge($warning, array(0=>'err_msg_name_exist'));
+            }
+        }
+        
+        return $warning;
     }
 
 }

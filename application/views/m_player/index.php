@@ -14,13 +14,19 @@
       </tr>
     </header>
     <div class="row">
-
+      
+      <div class = "col-lg-12 text-danger text-right">
+        <?= lang('ui_slotleft')." : ". $this->M_players->slotLeft();?>
+      </div>
       <div class="col-lg-12">
         <div class="card">
           <div class="card-header">
             <div class = "row">
               <div class="col-6">
                 <h4><?= lang('ui_data')?></h4>
+              </div>
+              <div class="col-6 text-right">
+                <a href="<?= base_url('mplayer/add')?>"><i class = "fa fa-plus"></i> Tambah</a>
               </div>
             </div>
           </div>
@@ -29,16 +35,16 @@
               <div class="table-responsive">
                 <table data-page-length="<?= $_SESSION[get_variable().'usersettings']['RowPerpage']?>" id = "tableUser" class="table table-striped table-no-bordered table-hover dataTable dtr-inline collapsed" cellspacing="0" width="100%" style="width: 100%;" role="grid" aria-describedby="datatables_info">
                   <thead class=" text-primary">
-                      <th><?=  lang('ui_user')?></th>
-                      <th><?=  lang('ui_group_user')?></th>
+                      <th><?=  lang('ui_player')?></th>
+                      <th><?=  lang('ui_groupplayer')?></th>
                       <th><?=  lang('ui_isactive')?></th>
                       <th class="disabled-sorting text-right"><?=  lang('ui_actions')?></th>
                   </thead>
                   <tfoot class=" text-primary">
                     <tr role = "row">
                       <!-- <th># </th> -->
-                      <th><?=  lang('ui_user')?></th>
-                      <th><?=  lang('ui_group_user')?></th>
+                      <th><?=  lang('ui_player')?></th>
+                      <th><?=  lang('ui_groupplayer')?></th>
                       <th><?=  lang('ui_isactive')?></th>
                       <th class="disabled-sorting text-right"><?=  lang('ui_actions')?></th>
                     </tr>
@@ -134,18 +140,7 @@
   }
 
   function init(){
-    <?php 
-      if($this->session->flashdata('success_msg'))
-      {
-        $msg = $this->session->flashdata('success_msg');
-        for($i=0 ; $i<count($msg); $i++)
-        {
-      ?>
-          setNotification("<?= lang($msg[$i]); ?>", 2, "bottom", "right");
-      <?php 
-        }
-      }
-    ?>
+    
   }
 
   function delete_user(id, name){

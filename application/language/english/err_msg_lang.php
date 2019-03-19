@@ -40,3 +40,4 @@ $lang['err_msg_item_sold_out'] = "Your Item is sold out, basket emptied";
 $lang['err_msg_amount_must_greaterthan_zero'] = "Amount must be greater than 0";
 $lang['err_msg_description_cannot_null'] = "Description cannot null";
 $lang['err_msg_please_set_company'] = "Please Set Company First";
+$lang['err_msg_no_player_slots_left'] = "No player slots left";

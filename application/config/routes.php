@@ -91,7 +91,7 @@ $route['mgroupplayer/editsave'] = 'm_groupplayer/editsave';
 $route['mgroupplayer/delete'] = 'm_groupplayer/delete';
 
 $route['mplayer'] = 'm_player';
-$route['addplayer'] = 'm_player/add';
+$route['mplayer/add'] = 'm_player/add';
 $route['mplayer/addsave'] = 'm_player/addsave';
 $route['mplayer/edit/(:num)'] = 'm_player/edit/$1';
 $route['mplayer/editsave'] = 'm_player/editsave';
@@ -103,6 +103,13 @@ $route['mcompany/addsave'] = 'm_company/addsave';
 $route['mcompany/edit/(:num)'] = 'm_company/edit/$1';
 $route['mcompany/editsave'] = 'm_company/editsave';
 $route['mcompany/delete'] = 'm_company/delete';
+
+$route['mevent'] = 'm_event';
+$route['mevent/add'] = 'm_event/add';
+$route['mevent/addsave'] = 'm_event/addsave';
+$route['mevent/edit/(:num)'] = 'm_event/edit/$1';
+$route['mevent/editsave'] = 'm_event/editsave';
+$route['mevent/delete'] = 'm_event/delete';
 
 $route['report'] = 'reports';
 $route['report/submission_payment_receipt_pdf/(:num)'] = 'reports/submission_payment_receipt_pdf/$1';

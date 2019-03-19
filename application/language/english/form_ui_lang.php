@@ -391,6 +391,9 @@ $lang['ui_groupplayer'] = "Group Player";
 $lang['ui_master_groupplayer'] = "Master Group Player";
 $lang['ui_master_player'] = "Master Player";
 $lang['ui_player'] = "Player";
+$lang['ui_slotleft'] = "Slot Left";
+$lang['ui_timestart'] = "Time Start";
+$lang['ui_timeend'] = "Time End";
 
 
 

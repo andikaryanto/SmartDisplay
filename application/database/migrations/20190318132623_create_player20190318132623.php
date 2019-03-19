@@ -29,6 +29,14 @@ class Migration_create_player20190318132623 extends CI_Migration {
             ),
             'ExpirationDate' => array(
                 'type' => 'Datetime'
+            ),
+            'DeviceId' => array(
+                'type' => 'Varchar',
+                'constraint' => 50
+            ),
+            'IsRegistered' => array(
+                'type' => 'Smallint',
+                'constraint' => 11
             )
         ));
         $this->dbforge->add_key('Id', TRUE);

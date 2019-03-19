@@ -10,6 +10,7 @@
     <!-- bootstrapdashboard -->
     <!-- Bootstrap CSS-->
     <link rel="stylesheet" href="<?=  base_url('assets/bootstrapdashboard/vendor/bootstrap/css/bootstrap.min.css');?>">
+    <link rel="stylesheet" href="<?=  base_url('assets/bootstrap/css/bootstrap-datetimepicker.css');?>">
     <link rel="stylesheet" href="<?=  base_url('assets/bootstrapdashboard/vendor/bootstrap/css/bootstrap-datepicker3.css');?>">
     <link rel="stylesheet" href="<?=  base_url('assets/css/bootstrapdashboardcustom.css');?>">
     <link rel="stylesheet" href="<?=  base_url('assets/bootstrapdashboard/vendor/bootstrap/css/bootstrap-select.min.css');?>">
