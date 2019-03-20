@@ -11,3 +11,9 @@
 .link-action{
     margin : 0 10px;
 }
+.even.selected td {
+    background-color: #33b35a !important; /* Add !important to make sure override datables base styles */
+}
+ .odd.selected td {
+    background-color: #33b35a !important; /* Add !important to make sure override datables base styles */
+}

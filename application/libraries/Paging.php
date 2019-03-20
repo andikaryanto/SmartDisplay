@@ -21,6 +21,7 @@ class Paging {
         $data["m_groupplayer"] = "m_groupplayers";
         $data["m_player"] = "m_players";
         $data["m_event"] = "m_events";
+        $data["m_multimedia"] = "m_multimedias";
         return $data;
     }
 
@@ -53,13 +54,13 @@ class Paging {
         }
         $setupmenu = $CI->M_forms->get_data_by_classname("Setup");
         $mastermenu = $CI->M_forms->get_data_by_classname("Master");
-        $generalmenu = $CI->M_forms->get_data_by_classname("General");
+        $multimediamenu = $CI->M_forms->get_data_by_classname("Multimedia");
         $transactionmenu = $CI->M_forms->get_data_by_classname("Transaction");
 
         $data['companyname'] = $companyname;
         $data['setupmenu'] = $setupmenu;
         $data['mastermenu'] = $mastermenu;
-        $data['generalmenu'] = $generalmenu;
+        $data['multimediamenu'] = $multimediamenu;
         $data['transactionmenu'] = $transactionmenu;
 
         //print_r($data['mastermenu']);

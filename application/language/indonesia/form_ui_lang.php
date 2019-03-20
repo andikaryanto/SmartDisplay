@@ -413,4 +413,10 @@ $lang['ui_master_event'] = "Master Even";
 $lang['ui_even'] = "Even";
 $lang['ui_timestart'] = "Waktu Mulai";
 $lang['ui_timeend'] = "Waktu Selesai";
+$lang['ui_master_multimedia'] = "Master Multimedia";
+$lang['ui_multimedia'] = "Multimedia";
+$lang['ui_image'] = "Gambar";
+$lang['ui_video'] = "Video";
+$lang['ui_assigntype'] = "Putar Pada";
+$lang['ui_manyplayers'] = "Beberapa Player";
 

@@ -10,6 +10,8 @@
     <!-- bootstrapdashboard -->
     <!-- Bootstrap CSS-->
     <link rel="stylesheet" href="<?=  base_url('assets/bootstrapdashboard/vendor/bootstrap/css/bootstrap.min.css');?>">
+    <link rel="stylesheet" href="<?=  base_url('assets/bootstrapdashboard/css/custom.css');?>">
+    <!-- <link rel="stylesheet" href="<?=  base_url('assets/bootstrapdashboard/vendor/bootstrap/css/jquery.dataTables.min.css');?>"> -->
     <link rel="stylesheet" href="<?=  base_url('assets/bootstrap/css/bootstrap-datetimepicker.css');?>">
     <link rel="stylesheet" href="<?=  base_url('assets/bootstrapdashboard/vendor/bootstrap/css/bootstrap-datepicker3.css');?>">
     <link rel="stylesheet" href="<?=  base_url('assets/css/bootstrapdashboardcustom.css');?>">
@@ -83,6 +85,20 @@
               <ul id="exampledropdownDropdownMaster" class="collapse list-unstyled ">
               <?php 
               foreach($mastermenu as $master) {
+                if(is_permitted($_SESSION[get_variable().'userdata']['M_Groupuser_Id'], $master->FormName, "Read")){
+              ?>
+                <li><a href="<?= base_url($master->IndexRoute);?>"><?= lang($master->Resource)?></a></li>
+              <?php 
+                }
+              }
+              ?>
+                
+              </ul>
+            </li>
+            <li><a href="#exampledropdownDropdownMultimedia" aria-expanded="false" data-toggle="collapse"> <i class="icon-interface-windows"></i>Multimedia</a>
+              <ul id="exampledropdownDropdownMultimedia" class="collapse list-unstyled ">
+              <?php 
+              foreach($multimediamenu as $master) {
                 if(is_permitted($_SESSION[get_variable().'userdata']['M_Groupuser_Id'], $master->FormName, "Read")){
               ?>
                 <li><a href="<?= base_url($master->IndexRoute);?>"><?= lang($master->Resource)?></a></li>

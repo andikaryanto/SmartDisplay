@@ -68,6 +68,8 @@ class M_player extends CI_Controller
         $model->M_Groupplayer_Id = $groupid;
         $model->Name = $name;
         $model->IsActive = 1;
+        $model->IsRegistered = 0;
+        $model->CreatedBy = $_SESSION[get_variable().'userdata']['Username'];
 
         $validate = $this->M_players->validate($model);
  

@@ -394,6 +394,12 @@ $lang['ui_player'] = "Player";
 $lang['ui_slotleft'] = "Slot Left";
 $lang['ui_timestart'] = "Time Start";
 $lang['ui_timeend'] = "Time End";
+$lang['ui_master_multimedia'] = "Master Multimedia";
+$lang['ui_multimedia'] = "Multimedia";
+$lang['ui_image'] = "Image";
+$lang['ui_video'] = "Video";
+$lang['ui_assigntype'] = "Play At";
+$lang['ui_manyplayers'] = "Many Players";
 
 
 

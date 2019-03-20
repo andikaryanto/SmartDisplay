@@ -28,15 +28,17 @@ class Migration_create_multimedia20190319125307 extends CI_Migration {
             ),
             'Url' => array(
                 'type' => 'varchar',
-                'constraint' => 50,
+                'constraint' => 500,
             ),
             'ActiveDate' => array(
                 'type' => 'datetime',
+                'null' => true
             ),
             'InactiveDate' => array(
                 'type' => 'datetime',
+                'null' => true
             ),
-            'IsDelete' => array (
+            'IsDeleted' => array (
                 'type' => 'smallint',
                 'constraint' => 11
             ),

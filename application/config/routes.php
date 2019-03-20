@@ -111,6 +111,13 @@ $route['mevent/edit/(:num)'] = 'm_event/edit/$1';
 $route['mevent/editsave'] = 'm_event/editsave';
 $route['mevent/delete'] = 'm_event/delete';
 
+$route['mmultimedia'] = 'm_multimedia';
+$route['mmultimedia/add'] = 'm_multimedia/add';
+$route['mmultimedia/addsave'] = 'm_multimedia/addsave';
+$route['mmultimedia/edit/(:num)'] = 'm_multimedia/edit/$1';
+$route['mmultimedia/editsave'] = 'm_multimedia/editsave';
+$route['mmultimedia/delete'] = 'm_multimedia/delete';
+
 $route['report'] = 'reports';
 $route['report/submission_payment_receipt_pdf/(:num)'] = 'reports/submission_payment_receipt_pdf/$1';
 $route['report/submission_payment_detail_pdf'] = 'reports/submission_payment_detail_pdf';

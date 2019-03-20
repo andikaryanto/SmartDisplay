@@ -1,0 +1,485 @@
+<div class="breadcrumb-holder">
+  <div class="container-fluid">
+    <ul class="breadcrumb">
+      <li class="breadcrumb-item"><a href="index.html">Home</a></li>
+      <li class="breadcrumb-item active">Master       </li>
+    </ul>
+  </div>
+</div>
+<section>
+  <div class="container-fluid">
+    <!-- Page Header-->
+    <header> 
+          <h1 class="h3 display"><?= lang('ui_master_multimedia')?> </h1>
+      </tr>
+    </header>
+    <div class="row">
+      <div class="col-lg-12">
+        <div class="card">
+          <div class="card-header">
+            <div class = "row">
+              <div class="col-6">
+                <h4><?= lang('ui_data')?></h4>
+              </div>
+              <div class="col-6 text-right">
+                <a href="<?= base_url('mmultimedia')?>"><i class = "fa fa-table"></i> Data</a>
+              </div>
+            </div>
+          </div>
+          <div class="card-body">                
+            <form method = "post" action = "<?= base_url('mmultimedia/editsave');?>">
+              <input hidden name ="idmultimedia" id="idmultimedia" value="<?= $model->Id?>">
+              <input hidden id = "eventid" name = "eventid" value ="<?= $model->M_Event_Id?>">
+              <div class="form-group">
+                <div class = "required">
+                  <label><?= lang('ui_name')?></label>
+                  <input id="named" type="text" placeholder="<?= lang('ui_name') ?>" class="form-control" name = "named" value="<?= $model->Name?>" required>
+                </div>
+              </div>
+              <div class="form-group">
+                <div class = "required">
+                  <label><?= lang('ui_even')?></label>
+                  <div class="input-group has-success">
+                    
+                    <input id = "evenname" type="text" class="form-control custom-readonly"  value="<?= $model->get_M_Event()->Name?>" readonly>
+                    <div class="input-group-append">
+                      <button id="btnEvenModal" data-toggle="modal" type="button" class="btn btn-primary" data-target="#modalEven"><i class="fa fa-search"></i></button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row" >
+                <div class="col-md-6">
+                  <div class="form-group">   
+                    <div class = "required">    
+                      <label><?= lang('ui_type')?></label>
+                      <select id ="type" class="selectpicker form-control" name = 'type'>
+                      <?php foreach($this->M_enums->get_data_by_id(2) as $itemstatus) { ?>
+                        <option value ="<?= $itemstatus->Value?>"><?= lang($itemstatus->Resource)?></option>
+                      <?php } ?>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="form-group">   
+                    <div class = "required">       
+                      <label><?= lang('ui_assigntype')?></label>
+                      <select id ="assigntype" class="selectpicker form-control" name = 'assigntype'>
+                      <?php foreach($this->M_enums->get_data_by_id(3) as $itemstatus) { ?>
+                        <option value ="<?= $itemstatus->Value?>"><?= lang($itemstatus->Resource)?></option>
+                      <?php } ?>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="row" >
+                <div class="col-md-6">
+                  <div class="form-group"> 
+                    <div class = "required"> 
+                      <label for="file"><?= lang('ui_multimedia')?></label>
+                      <input accept = "image/jpg, image/jpeg, image/png" id="file" type="file" class="form-control-file" name = "file[]" required>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group">       
+                <input type="submit" value="<?= lang('ui_save')?>" class="btn btn-primary">
+                <a href="<?= base_url('mmultimedia')?>" value="<?= lang('ui_cancel')?>" class="btn btn-primary"><?= lang('ui_cancel')?></a>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<section>
+  <div class="container-fluid">
+    <!-- Page Header-->
+   
+    <div class="row">
+
+      <div class="col-lg-12">
+        <div class="card">
+          <div class="card-header">
+            <div class = "row">
+              <div class="col-6">
+                <h4><?= lang('ui_player')?></h4>
+              </div>
+              <div class="col-6 text-right">
+                <a href="javascript:loopUpPlayer();"><i class = "fa fa-plus"></i> Tambah</a>
+              </div>
+            </div>
+          </div>
+          <div class="card-body">
+            <div class="table-responsive">
+              <table id = "tablePlayerMultimedia" style="width: 100%;" class="table table-striped table-no-bordered table-hover dataTable dtr-inline collapsed" role="grid">
+                <thead class=" text-primary">
+                  <tr role = "row">
+                    <!-- <th># </th> -->
+                    <th><?=  lang('ui_player')."/".lang('ui_groupplayer')?></th>
+                    <th class="disabled-sorting text-right"><?=  lang('ui_actions')?></th>
+                  </tr>
+                </thead>
+                <tfoot class=" text-primary">
+                  <tr role = "row">
+                    <!-- <th># </th> -->
+                    <th><?=  lang('ui_player')."/".lang('ui_groupplayer')?></th>
+                    <th class="disabled-sorting text-right"><?=  lang('ui_actions')?></th>
+                  </tr>
+                </tfoot>
+                <tbody>
+                <?php
+                  foreach ($model->get_list_M_Multimediadetail() as $value)
+                  {
+                ?>
+                    <tr class = "rowdetail" role = "row" id = <?= $value->Id?>>
+                      <td><?= $value->Name?></td>
+                      <td><?= get_formated_date($value->ActiveDate, 'd-m-Y')?></td>
+                      <td><?= get_formated_date($value->InactiveDate, 'd-m-Y')?></td>
+                      <td><?= $value->TimeStart?></td>
+                      <td><?= $value->TimeEnd?></td>
+                    </tr>
+                <?php
+                  }
+                ?>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+</section>
+
+  <!-- modal -->
+<div id="modalEven" tabindex="-1" role="dialog" aria-labelledby="evenModalLabel" aria-hidden="true" class="modal fade text-left">
+  <div role="document" class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 id="evenModalLabel" class="modal-title"><?=  lang('ui_even')?></h5>
+        <button type="button" data-dismiss="modal" aria-label="Close" class="close"><span aria-hidden="true">×</span></button>
+      </div>
+      <div class="card-body">
+        <div class="toolbar">
+                    <!--        Here you can write extra buttons/actions for the toolbar
+                                  -->
+        </div>
+        <div class="material-datatables">
+          <div id = "datatables_wrapper" class = "dataTables_wrapper dt-bootstrap4">
+            <!-- <div class="row"><div class="col-sm-12 col-md-6"><div class="dataTables_length" id="datatables_length"><label>Show <select name="datatables_length" aria-controls="datatables" class="custom-select custom-select-sm form-control form-control-sm"><option value="10">10</option><option value="25">25</option><option value="50">50</option><option value="-1">All</option></select> entries</label></div></div><div class="col-sm-12 col-md-6"><div id="datatables_filter" class="dataTables_filter"><label><span class="bmd-form-group bmd-form-group-sm"><input type="search" class="form-control form-control-sm" placeholder="Search records" aria-controls="datatables"></span></label></div></div></div> -->
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="table-responsive">
+                  <table data-page-length="5" id = "tableModalEven" class="table table-striped table-no-bordered table-hover dataTable dtr-inline collapsed" cellspacing="0" width="100%" style="width: 100%;" role="grid" aria-describedby="datatables_info">
+                    <thead class=" text-primary">
+                        <th><?=  lang('ui_even')?></th>
+                        <th><?=  lang('ui_datefrom')?></th>
+                        <th><?=  lang('ui_dateto')?></th>
+                        <th><?=  lang('ui_timestart')?></th>
+                        <th><?=  lang('ui_timeend')?></th>
+                        <!-- <th><?=  lang('ui_description')?></th> -->
+                    </thead>
+                    <tfoot class=" text-primary">
+                      <tr role = "row">
+                        <!-- <th># </th> -->
+                        <th><?=  lang('ui_even')?></th>
+                        <th><?=  lang('ui_datefrom')?></th>
+                        <th><?=  lang('ui_dateto')?></th>
+                        <th><?=  lang('ui_timestart')?></th>
+                        <th><?=  lang('ui_timeend')?></th>
+                        <!-- <th><?=  lang('ui_description')?></th> -->
+                      </tr>
+                    </tfoot>
+                    <tbody>
+                    <?php
+                      //print_r($modeldetail);
+                        foreach ($this->M_events->get_list() as $value)
+                        {
+                      ?>
+                          <tr class = "rowdetail" role = "row" id = <?= $value->Id?>>
+                            <td><?= $value->Name?></td>
+                            <td><?= get_formated_date($value->ActiveDate, 'd-m-Y')?></td>
+                            <td><?= get_formated_date($value->InactiveDate, 'd-m-Y')?></td>
+                            <td><?= $value->TimeStart?></td>
+                            <td><?= $value->TimeEnd?></td>
+                          </tr>
+                      <?php
+                        }
+                      ?>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+  <!-- modal -->
+  <div id="modalPlayer" tabindex="-1" role="dialog" aria-labelledby="playerModalLabel" aria-hidden="true" class="modal fade text-left">
+  <div role="document" class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 id="playerModalLabel" class="modal-title"><?=  lang('ui_player')?></h5>
+        <button type="button" data-dismiss="modal" aria-label="Close" class="close"><span aria-hidden="true">×</span></button>
+      </div>
+      <div class="card-body">
+        <div class="toolbar">
+                    <!--        Here you can write extra buttons/actions for the toolbar
+                                  -->
+        </div>
+        <div class="material-datatables">
+          <div id = "datatables_wrapper" class = "dataTables_wrapper dt-bootstrap4">
+            <!-- <div class="row"><div class="col-sm-12 col-md-6"><div class="dataTables_length" id="datatables_length"><label>Show <select name="datatables_length" aria-controls="datatables" class="custom-select custom-select-sm form-control form-control-sm"><option value="10">10</option><option value="25">25</option><option value="50">50</option><option value="-1">All</option></select> entries</label></div></div><div class="col-sm-12 col-md-6"><div id="datatables_filter" class="dataTables_filter"><label><span class="bmd-form-group bmd-form-group-sm"><input type="search" class="form-control form-control-sm" placeholder="Search records" aria-controls="datatables"></span></label></div></div></div> -->
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="table-responsive">
+                  <table data-page-length="5" id = "tablePlayer" class="table table-striped table-no-bordered table-hover dataTable dtr-inline collapsed" cellspacing="0" width="100%" style="width: 100%;" role="grid" aria-describedby="datatables_info">
+                  <thead class=" text-primary">
+                      <th><?=  lang('ui_player')?></th>
+                      <th><?=  lang('ui_groupplayer')?></th>
+                  </thead>
+                  <tfoot class=" text-primary">
+                    <tr role = "row">
+                      <th><?=  lang('ui_player')?></th>
+                      <th><?=  lang('ui_groupplayer')?></th>
+                    </tr>
+                  </tfoot>
+                  <tbody>
+                  <?php
+                  //print_r($modeldetail);
+                    foreach ($this->M_players->get_list() as $value)
+                    {
+                      if($value->IsActive){
+                  ?>
+                      <tr role = "row" id = <?= $value->Id?>>
+                        <td><?= $value->Name?></td>
+                        <td><?= $value->get_M_Groupplayer()->GroupName?></td>
+                        
+                      </tr>
+                  <?php
+                      }
+                    }
+                  ?>
+                    
+                  </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+  <!-- modal -->
+  <div id="modalGroupPlayer" tabindex="-1" role="dialog" aria-labelledby="groupPlayerModalLabel" aria-hidden="true" class="modal fade text-left">
+  <div role="document" class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 id="groupPlayerModalLabel" class="modal-title"><?=  lang('ui_groupplayer')?></h5>
+        <button type="button" data-dismiss="modal" aria-label="Close" class="close"><span aria-hidden="true">×</span></button>
+      </div>
+      <div class="card-body">
+        <div class="toolbar">
+                    <!--        Here you can write extra buttons/actions for the toolbar
+                                  -->
+        </div>
+        <div class="material-datatables">
+          <div id = "datatables_wrapper" class = "dataTables_wrapper dt-bootstrap4">
+            <!-- <div class="row"><div class="col-sm-12 col-md-6"><div class="dataTables_length" id="datatables_length"><label>Show <select name="datatables_length" aria-controls="datatables" class="custom-select custom-select-sm form-control form-control-sm"><option value="10">10</option><option value="25">25</option><option value="50">50</option><option value="-1">All</option></select> entries</label></div></div><div class="col-sm-12 col-md-6"><div id="datatables_filter" class="dataTables_filter"><label><span class="bmd-form-group bmd-form-group-sm"><input type="search" class="form-control form-control-sm" placeholder="Search records" aria-controls="datatables"></span></label></div></div></div> -->
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="table-responsive">
+                  <table data-page-length="5" id = "tableModalGroupPlayer" class="table table-striped table-no-bordered table-hover dataTable dtr-inline collapsed" cellspacing="0" width="100%" style="width: 100%;" role="grid" aria-describedby="datatables_info">
+                    <thead class=" text-primary">
+                        <th><?=  lang('ui_even')?></th>
+                        <th><?=  lang('ui_datefrom')?></th>
+                        <th><?=  lang('ui_dateto')?></th>
+                        <th><?=  lang('ui_timestart')?></th>
+                        <th><?=  lang('ui_timeend')?></th>
+                        <!-- <th><?=  lang('ui_description')?></th> -->
+                    </thead>
+                    <tfoot class=" text-primary">
+                      <tr role = "row">
+                        <!-- <th># </th> -->
+                        <th><?=  lang('ui_even')?></th>
+                        <th><?=  lang('ui_datefrom')?></th>
+                        <th><?=  lang('ui_dateto')?></th>
+                        <th><?=  lang('ui_timestart')?></th>
+                        <th><?=  lang('ui_timeend')?></th>
+                        <!-- <th><?=  lang('ui_description')?></th> -->
+                      </tr>
+                    </tfoot>
+                    <tbody>
+                    <?php
+                      //print_r($modeldetail);
+                        foreach ($this->M_events->get_list() as $value)
+                        {
+                      ?>
+                          <tr class = "rowdetail" role = "row" id = <?= $value->Id?>>
+                            <td><?= $value->Name?></td>
+                            <td><?= get_formated_date($value->ActiveDate, 'd-m-Y')?></td>
+                            <td><?= get_formated_date($value->InactiveDate, 'd-m-Y')?></td>
+                            <td><?= $value->TimeStart?></td>
+                            <td><?= $value->TimeEnd?></td>
+                          </tr>
+                      <?php
+                        }
+                      ?>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  $(document).ready(function() { 
+    initadd();
+    loadModalEven("#tableModalEven");
+    dataTable();
+    loadPlayer();
+    loadGroupPlayer();
+  });
+
+  function loopUpPlayer(){
+    if($("#assigntype").val() == 1){
+      $("#modalPlayer").modal('show');
+    }
+  }
+
+  function dataTable(){
+    var table = $('#tablePlayerMultimedia').DataTable({
+      "pagingType": "full_numbers",
+      "lengthMenu": [[5, 10, 15, 20, -1], [5, 10, 15, 20, "All"]],
+      "order" : [[1, "desc"]],
+      responsive: true,
+      language: {
+      search: "_INPUT_",
+      "search": "<?= lang('ui_search')?>"+" : "
+      },
+      "columnDefs": [ 
+        {
+          targets: 'disabled-sorting', 
+          orderable: false
+        }
+      ],
+      columns: [
+        { responsivePriority: 1 },
+        { responsivePriority: 2 }
+      ],
+    }); 
+
+     // Delete a record
+     
+  }
+
+  function loadPlayer(){
+    var table = $('#tablePlayer').DataTable({
+      "pagingType": "full_numbers",
+      "lengthMenu": [[5, 10, 15, 20, -1], [5, 10, 15, 20, "All"]],
+      "order" : [[0, "desc"]],
+      select: {
+        style: 'os',
+        items: 'cell'
+      },
+      responsive: true,
+      language: {
+        search: "_INPUT_",
+        "search": "<?= lang('ui_search')?>"+" : "
+      },
+    }); 
+
+     // Delete a record
+     
+  }
+
+  function loadGroupPlayer(){
+    var table = $('#tableModalGroupPlayer').DataTable({
+      "pagingType": "full_numbers",
+      "lengthMenu": [[5, 10, 15, 20, -1], [5, 10, 15, 20, "All"]],
+      "order" : [[3, "desc"]],
+      responsive: true,
+      language: {
+        search: "_INPUT_",
+        "search": "<?= lang('ui_search')?>"+" : "
+      },
+      "columnDefs": [ 
+        {
+          targets: 'disabled-sorting', 
+          orderable: false
+        }
+      ],
+      columns: [
+        { responsivePriority: 1 },
+        { responsivePriority: 3 },
+        { responsivePriority: 4 },
+        { responsivePriority: 5 },
+        { responsivePriority: 2 }
+      ],
+    }); 
+
+     // Delete a record
+     
+  }
+  function loadModalEven(idtable){
+    $(idtable).DataTable({
+      "pagingType": "full_numbers",
+      "lengthMenu": [[5, 10, 15, 20, -1], [5, 10, 15, 20, "All"]],
+      responsive: true,
+      language: {
+      search: "_INPUT_",
+      "search": "<?= lang('ui_search')?>"+" : ",
+      }
+    });
+
+    var table = $(idtable).DataTable();
+     // Edit record
+     table.on( 'click', '.rowdetail', function () {
+        $tr = $(this).closest('tr');
+
+        var data = table.row($tr).data();
+        var id = $tr.attr('id');
+
+        $("#eventid").val(id);
+        $("#evenname").val(data[0]);
+        $('#modalEven').modal('hide');
+     } );
+  }
+
+  function initadd(){
+    
+    $('select#type option[value="<?= $model->Type ?>"]').attr("selected",true);
+    $('select#assigntype option[value="<?= $model->AssignType ?>"]').attr("selected",true);
+    $('.selectpicker').selectpicker({
+      style : 'btn-primary'
+    }); 
+  }
+
+  $('#type').on('change', function(e){
+    
+    var myfile = document.getElementById("file");
+    if($(this).val() == 1){
+      myfile.accept = "image/jpg, image/jpeg, image/png";
+    } else {
+      myfile.accept = "video/*";
+    }
+  });
+</script>

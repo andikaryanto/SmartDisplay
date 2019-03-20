@@ -21,22 +21,43 @@ class Migration_create_player20190318132623 extends CI_Migration {
             ),
             'IpAddress' => array(
                 'type' => 'Varchar',
-                'constraint' => 25
+                'constraint' => 25,
+                'null' => true
             ),
             'IsActive' => array(
                 'type' => 'Smallint',
                 'constraint' => 11
             ),
             'ExpirationDate' => array(
-                'type' => 'Datetime'
+                'type' => 'Datetime',
+                'null' => true
             ),
             'DeviceId' => array(
                 'type' => 'Varchar',
-                'constraint' => 50
+                'constraint' => 50,
+                'null' => true
             ),
             'IsRegistered' => array(
                 'type' => 'Smallint',
                 'constraint' => 11
+            ),
+            'CreatedBy' => array(
+                'type' => 'varchar',
+                'constraint' => 50,
+                'null' => true
+            ),
+            'ModifiedBy' => array(
+                'type' => 'varchar',
+                'constraint' => 50,
+                'null' => true
+            ),
+            'Created' => array(
+                'type' => 'datetime',
+                'null' => true
+            ),
+            'Modified' => array(
+                'type' => 'datetime',
+                'null' => true
             )
         ));
         $this->dbforge->add_key('Id', TRUE);
