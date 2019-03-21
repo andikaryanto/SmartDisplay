@@ -109,7 +109,8 @@
                 <h4><?= lang('ui_player')?></h4>
               </div>
               <div class="col-6 text-right">
-                <a href="javascript:loopUpPlayer();"><i class = "fa fa-plus"></i> Tambah</a>
+                <a href="javascript:saveDetail();" class ="link-action"><i class = "fa fa-save "></i></a>
+                <a href="javascript:lookUpPlayer();" class ="link-action"><i class = "fa fa-plus"></i></a>
               </div>
             </div>
           </div>
@@ -119,6 +120,7 @@
                 <thead class=" text-primary">
                   <tr role = "row">
                     <!-- <th># </th> -->
+                    <th>Id</th>
                     <th><?=  lang('ui_player')."/".lang('ui_groupplayer')?></th>
                     <th class="disabled-sorting text-right"><?=  lang('ui_actions')?></th>
                   </tr>
@@ -126,26 +128,11 @@
                 <tfoot class=" text-primary">
                   <tr role = "row">
                     <!-- <th># </th> -->
+                    <th>Id</th>
                     <th><?=  lang('ui_player')."/".lang('ui_groupplayer')?></th>
                     <th class="disabled-sorting text-right"><?=  lang('ui_actions')?></th>
                   </tr>
                 </tfoot>
-                <tbody>
-                <?php
-                  foreach ($model->get_list_M_Multimediadetail() as $value)
-                  {
-                ?>
-                    <tr class = "rowdetail" role = "row" id = <?= $value->Id?>>
-                      <td><?= $value->Name?></td>
-                      <td><?= get_formated_date($value->ActiveDate, 'd-m-Y')?></td>
-                      <td><?= get_formated_date($value->InactiveDate, 'd-m-Y')?></td>
-                      <td><?= $value->TimeStart?></td>
-                      <td><?= $value->TimeEnd?></td>
-                    </tr>
-                <?php
-                  }
-                ?>
-                </tbody>
               </table>
             </div>
           </div>
@@ -224,7 +211,7 @@
 </div>
 
   <!-- modal -->
-  <div id="modalPlayer" tabindex="-1" role="dialog" aria-labelledby="playerModalLabel" aria-hidden="true" class="modal fade text-left">
+<div id="modalPlayer" tabindex="-1" role="dialog" aria-labelledby="playerModalLabel" aria-hidden="true" class="modal fade text-left">
   <div role="document" class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
@@ -244,11 +231,13 @@
                 <div class="table-responsive">
                   <table data-page-length="5" id = "tablePlayer" class="table table-striped table-no-bordered table-hover dataTable dtr-inline collapsed" cellspacing="0" width="100%" style="width: 100%;" role="grid" aria-describedby="datatables_info">
                   <thead class=" text-primary">
+                      <th>Id</th>
                       <th><?=  lang('ui_player')?></th>
                       <th><?=  lang('ui_groupplayer')?></th>
                   </thead>
                   <tfoot class=" text-primary">
                     <tr role = "row">
+                      <th>Id</th>
                       <th><?=  lang('ui_player')?></th>
                       <th><?=  lang('ui_groupplayer')?></th>
                     </tr>
@@ -258,9 +247,10 @@
                   //print_r($modeldetail);
                     foreach ($this->M_players->get_list() as $value)
                     {
-                      if($value->IsActive){
+                      if($value->IsActive && !$value->isExistInMultimedia($model->Id)){
                   ?>
                       <tr role = "row" id = <?= $value->Id?>>
+                        <td><?= $value->Id?></td>
                         <td><?= $value->Name?></td>
                         <td><?= $value->get_M_Groupplayer()->GroupName?></td>
                         
@@ -284,7 +274,7 @@
 
 
   <!-- modal -->
-  <div id="modalGroupPlayer" tabindex="-1" role="dialog" aria-labelledby="groupPlayerModalLabel" aria-hidden="true" class="modal fade text-left">
+<div id="modalGroupPlayer" tabindex="-1" role="dialog" aria-labelledby="groupPlayerModalLabel" aria-hidden="true" class="modal fade text-left">
   <div role="document" class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
@@ -304,38 +294,32 @@
                 <div class="table-responsive">
                   <table data-page-length="5" id = "tableModalGroupPlayer" class="table table-striped table-no-bordered table-hover dataTable dtr-inline collapsed" cellspacing="0" width="100%" style="width: 100%;" role="grid" aria-describedby="datatables_info">
                     <thead class=" text-primary">
-                        <th><?=  lang('ui_even')?></th>
-                        <th><?=  lang('ui_datefrom')?></th>
-                        <th><?=  lang('ui_dateto')?></th>
-                        <th><?=  lang('ui_timestart')?></th>
-                        <th><?=  lang('ui_timeend')?></th>
-                        <!-- <th><?=  lang('ui_description')?></th> -->
+                        <th>Id</th>
+                        <th><?=  lang('ui_groupplayer')?></th>
+                        <th><?=  lang('ui_description')?></th>
                     </thead>
                     <tfoot class=" text-primary">
                       <tr role = "row">
                         <!-- <th># </th> -->
-                        <th><?=  lang('ui_even')?></th>
-                        <th><?=  lang('ui_datefrom')?></th>
-                        <th><?=  lang('ui_dateto')?></th>
-                        <th><?=  lang('ui_timestart')?></th>
-                        <th><?=  lang('ui_timeend')?></th>
-                        <!-- <th><?=  lang('ui_description')?></th> -->
+                        <th>Id</th>
+                        <th><?=  lang('ui_groupplayer')?></th>
+                        <th><?=  lang('ui_description')?></th>
                       </tr>
                     </tfoot>
                     <tbody>
                     <?php
                       //print_r($modeldetail);
-                        foreach ($this->M_events->get_list() as $value)
+                        foreach ($this->M_groupplayers->get_list() as $value)
                         {
+                          if(!$value->isExistInMultimedia($model->Id)){
                       ?>
                           <tr class = "rowdetail" role = "row" id = <?= $value->Id?>>
-                            <td><?= $value->Name?></td>
-                            <td><?= get_formated_date($value->ActiveDate, 'd-m-Y')?></td>
-                            <td><?= get_formated_date($value->InactiveDate, 'd-m-Y')?></td>
-                            <td><?= $value->TimeStart?></td>
-                            <td><?= $value->TimeEnd?></td>
+                            <td><?= $value->Id?></td>
+                            <td><?= $value->GroupName?></td>
+                            <td><?= $value->Description?></td>
                           </tr>
                       <?php
+                          }
                         }
                       ?>
                     </tbody>
@@ -351,6 +335,14 @@
 </div>
 
 <script>
+  var url = "<?= base_url('M_multimedia/adddetailplayer?idmultimedia='.$model->Id.'&assigntype='.$model->AssignType)?>";
+  var tablePlayer;
+  var tableGroupPlayer;
+  var tablePlayerMultimedia;
+  var getParams="";
+  var playergrup = [];
+  var modalPlayerOnClose = false;
+
   $(document).ready(function() { 
     initadd();
     loadModalEven("#tableModalEven");
@@ -359,47 +351,114 @@
     loadGroupPlayer();
   });
 
-  function loopUpPlayer(){
+  $('#modalPlayer').on('hidden.bs.modal', function (e) {
+    // tablePlayer.rows().deselect();
+    // modalPlayerOnClose = true;
+  })
+
+  function lookUpPlayer(){
     if($("#assigntype").val() == 1){
       $("#modalPlayer").modal('show');
+    } else {
+      $("#modalGroupPlayer").modal('show');
     }
   }
 
   function dataTable(){
-    var table = $('#tablePlayerMultimedia').DataTable({
+    tablePlayerMultimedia = $('#tablePlayerMultimedia').DataTable({
       "pagingType": "full_numbers",
       "lengthMenu": [[5, 10, 15, 20, -1], [5, 10, 15, 20, "All"]],
       "order" : [[1, "desc"]],
       responsive: true,
       language: {
-      search: "_INPUT_",
-      "search": "<?= lang('ui_search')?>"+" : "
+        search: "_INPUT_",
+        "search": "<?= lang('ui_search')?>"+" : "
       },
       "columnDefs": [ 
         {
+          "targets": 2,
+          "data": null,
+          "defaultContent": '<a href="#" rel="tooltip" title="<?=  lang('ui_delete')?>" class="btn-just-icon link-action text-right delete"><i class="fa fa-trash"></i></a>'
+        },
+        {
           targets: 'disabled-sorting', 
+          orderable: false
+        },
+        {
+          targets: 0, 
+          visible : false,
+          searchable: false,
           orderable: false
         }
       ],
       columns: [
-        { responsivePriority: 1 },
-        { responsivePriority: 2 }
+        { responsivePriority: 2 },
+        { responsivePriority: 3 },
+        { responsivePriority: 1 }
       ],
+      ajax: {
+        url : url+getParams,
+        dataSrc : 'data'
+      },
+      columns: [
+        { 
+          "data": "Id"
+        },
+        { 
+          "data": "PlayerName"
+        },
+        { 
+          "data": ""
+        }
+      
+        
+      ]
     }); 
 
      // Delete a record
      
+     tablePlayerMultimedia.on( 'click', '.delete', function (e) {
+
+      $tr = $(this).closest('tr');
+      var row = tablePlayerMultimedia.row( $(this).parents('tr') );
+      var data = row.data();
+      // console.log(data);
+      // row.remove().draw();
+      deleteData(data['PlayerName'], function(result){
+        if(result == true){
+          if(data['Id'] != undefined){
+            $.ajax({
+              url : "<?= base_url('M_multimedia/deleteDetail')?>",
+              type: "POST",
+              data : {
+                id: data['Id'],
+              },
+              success : function(data){
+                // location.reload();
+              }
+            });
+          }
+        }
+      });
+      row.remove().draw();
+     });
   }
 
   function loadPlayer(){
-    var table = $('#tablePlayer').DataTable({
+    tablePlayer = $('#tablePlayer').DataTable({
       "pagingType": "full_numbers",
       "lengthMenu": [[5, 10, 15, 20, -1], [5, 10, 15, 20, "All"]],
       "order" : [[0, "desc"]],
       select: {
-        style: 'os',
-        items: 'cell'
+        style: 'multi'
       },
+      "columnDefs": [
+        {
+            "targets": [ 0 ],
+            "visible": false,
+            "searchable": false
+        }
+      ],
       responsive: true,
       language: {
         search: "_INPUT_",
@@ -408,35 +467,88 @@
     }); 
 
      // Delete a record
+     tablePlayer.on('select', function ( e, dt, type, indexes ) {
+      if ( type === 'row' ) {
+          var data = tablePlayer.rows( indexes ).data().pluck( 'id' );
+          playergrup.push(parseInt(tablePlayer.rows( indexes ).data()[0][0]));
+          getParams = "&idplayergroup="+JSON.stringify(playergrup);
+          console.log(url+getParams);
+          reloadDtTable(tablePlayerMultimedia, url+getParams);
+      }
+    });
+
+    tablePlayer.on('deselect', function ( e, dt, type, indexes ) {
+      if ( type === 'row' ) {
+          var data = tablePlayer.rows( indexes ).data().pluck( 'id' );
+  
+          playergrup.pop(parseInt(tablePlayer.rows( indexes ).data()[0][0]));
+          var splicedData = playergrup.indexOf(parseInt(tablePlayer.rows( indexes ).data()[0][0]));
+          if (splicedData != -1) {
+            playergrup.splice(splicedData, 1);   
+          }
+          getParams = "&idplayergroup="+JSON.stringify(playergrup);
+          reloadDtTable(tablePlayerMultimedia, url+getParams);
+      }
+    });
      
   }
 
+  function reloadDtTable(table, url){
+    table.ajax.url(url).load();
+  }
+
   function loadGroupPlayer(){
-    var table = $('#tableModalGroupPlayer').DataTable({
+    tableGroupPlayer = $('#tableModalGroupPlayer').DataTable({
       "pagingType": "full_numbers",
       "lengthMenu": [[5, 10, 15, 20, -1], [5, 10, 15, 20, "All"]],
-      "order" : [[3, "desc"]],
+      "order" : [[0, "desc"]],
+      select: {
+        style: 'multi'
+      },
       responsive: true,
       language: {
         search: "_INPUT_",
         "search": "<?= lang('ui_search')?>"+" : "
       },
       "columnDefs": [ 
+        
         {
-          targets: 'disabled-sorting', 
-          orderable: false
+            "targets": [ 0 ],
+            "visible": false,
+            "searchable": false
         }
       ],
       columns: [
-        { responsivePriority: 1 },
+        { responsivePriority: 2 },
         { responsivePriority: 3 },
-        { responsivePriority: 4 },
-        { responsivePriority: 5 },
-        { responsivePriority: 2 }
+        { responsivePriority: 1 }
       ],
     }); 
 
      // Delete a record
+     tableGroupPlayer.on('select', function ( e, dt, type, indexes ) {
+      if ( type === 'row' ) {
+          var data = tableGroupPlayer.rows( indexes ).data().pluck( 'id' );
+          playergrup.push(parseInt(tableGroupPlayer.rows( indexes ).data()[0][0]));
+          getParams = "&idplayergroup="+JSON.stringify(playergrup);
+          console.log(url+getParams);
+          reloadDtTable(tablePlayerMultimedia, url+getParams);
+      }
+    });
+
+    tableGroupPlayer.on('deselect', function ( e, dt, type, indexes ) {
+      if ( type === 'row' ) {
+          var data = tableGroupPlayer.rows( indexes ).data().pluck( 'id' );
+  
+          playergrup.pop(parseInt(tableGroupPlayer.rows( indexes ).data()[0][0]));
+          var splicedData = playergrup.indexOf(parseInt(tableGroupPlayer.rows( indexes ).data()[0][0]));
+          if (splicedData != -1) {
+            playergrup.splice(splicedData, 1);   
+          }
+          getParams = "&idplayergroup="+JSON.stringify(playergrup);
+          reloadDtTable(tablePlayerMultimedia, url+getParams);
+      }
+    });
      
   }
   function loadModalEven(idtable){
@@ -462,6 +574,22 @@
         $("#evenname").val(data[0]);
         $('#modalEven').modal('hide');
      } );
+  }
+
+  function saveDetail(){
+    var playerid = JSON.stringify(playergrup);
+    $.ajax({
+      url : "<?= base_url('M_multimedia/saveDetail')?>",
+      type: "POST",
+      data : {
+        multimediaId: "<?= $model->Id?>",
+        assigntype : "<?= $model->AssignType?>",
+        idplayergroup : playerid
+      },
+      success : function(data){
+        location.reload();
+      }
+    });
   }
 
   function initadd(){

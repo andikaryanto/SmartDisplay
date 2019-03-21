@@ -96,14 +96,19 @@ class M_multimedia extends CI_Controller {
     public function editsave()
     {   
         // your editsave method goes here
-        $id = $this->input->post('idmultimedia');
         $name = $this->input->post('named');
-        $description = $this->input->post('description');
+        $eventid = $this->input->post('eventid');
+        $type = $this->input->post('type');
+        $assigntype = $this->input->post('assigntype');
 
         $model = $this->M_multimedias->get($id);
         $oldmodel = clone $model;
-        $model->GroupName = $name;
-        $model->Description = $description;
+
+        $model->M_Event_Id = $eventid;
+        $model->Name = $name;
+        $model->Type = $type;
+        $model->AssignType = $assigntype;
+        
         $model->ModifiedBy = $_SESSION[get_variable().'userdata']['Username'];
         //echo json_encode($model);
 
@@ -158,9 +163,107 @@ class M_multimedia extends CI_Controller {
         }
 
         $filename = get_current_date('Ymd_His')."_".$files['name'][0];
+        echo $uploadpath.$filename;
         $this->ftp->upload($files['tmp_name'][0], $uploadpath.$filename);
         $this->ftp->close();
         return $uploadpath.$filename;
     }
+
+    
+    public function adddetailplayer(){
+        $idmultimedia = $_GET['idmultimedia'];
+        $assigntype = $_GET['assigntype'];
+        $idplayergroup = array();
+        if(isset($_GET['idplayergroup']))
+            $idplayergroup = json_decode($_GET['idplayergroup']);
+
+        $arrunsaved = array();
+        foreach($idplayergroup as $iddetail){
+
+            // $detailsub = $this->M_multimediadetails->get($iddetail);
+            // if(!$detailsub){
+                $unsaveddetail = $this->M_multimediadetails->new_object();
+                $unsaveddetail->M_Multimedia_Id = $idmultimedia;
+                if($assigntype == 1){
+                    $unsaveddetail->M_Player_Id = $iddetail;
+                    $unsaveddetail->PlayerName = $unsaveddetail->get_M_Player()->Name;
+                }
+                else {
+                    $unsaveddetail->M_Groupplayer_Id = $iddetail;
+                    $unsaveddetail->PlayerName = $unsaveddetail->get_M_Groupplayer()->GroupName;
+                }
+
+                $unsaveddetail->IsUpdated = 0;
+                $unsaveddetail->CreatedBy = $_SESSION[get_variable().'userdata']['Username'];
+                array_push($arrunsaved, $unsaveddetail);
+            // } else {
+            //     continue;
+            // }
+        }
+
+        $multimedia = $this->M_multimedias->get($idmultimedia);
+        $detaildata = $multimedia->get_list_M_Multimediadetail();
+        if($detaildata){
+            foreach($detaildata as $detailmultimedia){
+                if($assigntype == 1){
+                    $detailmultimedia->PlayerName = $detailmultimedia->get_M_Player()->Name;
+                }
+                else {
+                    $detailmultimedia->PlayerName = $detailmultimedia->get_M_Groupplayer()->GroupName;
+                }
+                array_push($arrunsaved, $detailmultimedia);
+            }
+        }
+        $data = array('data' => 
+            $arrunsaved
+        );
+        //echo $unsaveddetail->getDaysFine();
+        echo json_encode($data);
+    }
+
+    public function saveDetail(){
+        $multimediaId = $this->input->post('multimediaId');
+        $assigntype = $this->input->post('assigntype');
+        $idplayergroup = $this->input->post('idplayergroup');
+
+        $players = json_decode($idplayergroup);
+        $field = "";
+        foreach($players as $playerid){
+
+            if($assigntype == 1){
+                $field = "M_Player_Id";
+            } else {
+                $field = "M_Groupplayer_Id";
+            }
+
+            $params = array(
+                'where' => array(
+                    $field => $playerid
+                )
+            );
+
+            $multimedia = $this->M_multimediadetails->get(null, null, $params);
+            if(!$multimedia){
+                $newmodel = $this->M_multimediadetails->new_object();
+                $newmodel->M_Multimedia_Id =  $multimediaId;
+                $newmodel->$field = $playerid;
+                $newmodel->IsUpdated = 1;
+                $newmodel->save();
+            }
+        }
+
+        echo "success";
+    }
+
+    public function deleteDetail(){
+        $detailid = $this->input->post('id');
+        $model = $this->M_multimediadetails->get($detailid);
+        if($model)
+            $model->delete();
+        
+        echo "success";
+
+    }
+
 
 }

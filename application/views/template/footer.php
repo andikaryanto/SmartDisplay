@@ -29,6 +29,7 @@
     <script src="<?= base_url('assets/bootstrapdashboard/vendor/malihu-custom-scrollbar-plugin/jquery.mCustomScrollbar.concat.min.js');?>"></script>
     <script src="<?= base_url('assets/bootstrapdashboard/vendor/bootstrap/js/plugins/moment.min.js');?>"></script>
     <script src="<?= base_url('assets/bootstrapdashboard/vendor/bootstrap/js/plugins/jquery.dataTables.min.js');?>"></script>
+    <script src="<?= base_url('assets/bootstrapdashboard/vendor/bootstrap/js/plugins/dataTables.select.min.js');?>"></script>
     <script src="<?= base_url('assets/bootstrapdashboard/vendor/bootstrap/js/plugins/bootstrap-notify.js');?>"></script>
     <script src="<?= base_url('assets/bootstrapdashboard/vendor/bootstrap/js/plugins/bootbox.min.js');?>"></script>
     <script src="<?= base_url('assets/bootstrapdashboard/vendor/bootstrap/js/plugins/jquery.mask.js');?>"></script>

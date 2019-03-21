@@ -61,4 +61,16 @@ class M_players_model extends MY_Model {
 
 class M_player_object extends Model_object {
    
+    public function isExistInMultimedia($multimediaId){
+        $ci =& get_instance();
+        $result = $ci->db->where('M_Multimedia_Id', $multimediaId)
+                ->where('M_Player_Id', $this->Id)
+                ->get('m_multimediadetails')
+                ->row();
+        if($result)
+            return true;
+        return false;
+
+    }
+
 }
