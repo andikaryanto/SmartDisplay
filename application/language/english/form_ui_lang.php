@@ -400,6 +400,8 @@ $lang['ui_image'] = "Image";
 $lang['ui_video'] = "Video";
 $lang['ui_assigntype'] = "Play At";
 $lang['ui_manyplayers'] = "Many Players";
+$lang['ui_master_ticker'] = "Master Ticker";
+$lang['ui_ticker'] = "Ticker";
 
 
 

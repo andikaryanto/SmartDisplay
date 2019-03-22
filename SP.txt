@@ -1,0 +1,78 @@
+CREATE OR REPLACE PROCEDURE sp_getplayermultimedia
+(
+	IN PlayerName VARCHAR(100)
+)
+	SELECT a.Id, 
+		a.Name PlayerName, 
+		d.Url, 
+		d.Name MultimediaName,
+		d.`IsDeleted`,
+		e.`ActiveDate`,
+		e.`InactiveDate`,
+		e.`TimeStart`,
+		e.`TimeEnd`
+	FROM m_players a
+	INNER JOIN m_groupplayers b ON b.Id = a.M_Groupplayer_Id
+	INNER JOIN m_multimediadetails c ON c.M_Groupplayer_Id = b.Id
+	INNER JOIN m_multimedias d ON d.Id = c.`M_Multimedia_Id`
+	INNER JOIN m_events e ON e.Id = d.`M_Event_Id`
+	WHERE a.Name = PlayerName
+		AND c.IsUpdated = 1
+
+	UNION ALL
+
+	SELECT  a.Id, 
+		a.Name PlayerName, 
+		d.Url, 
+		d.Name MultimediaName,
+		d.`IsDeleted`,
+		e.`ActiveDate`,
+		e.`InactiveDate`,
+		e.`TimeStart`,
+		e.`TimeEnd`
+	FROM m_players a
+	INNER JOIN m_multimediadetails c ON c.M_Player_Id = a.Id
+	INNER JOIN m_multimedias d ON d.Id = c.`M_Multimedia_Id`
+	INNER JOIN m_events e ON e.Id = d.`M_Event_Id`
+	WHERE a.Name = PlayerName 
+		AND c.IsUpdated = 1;
+
+
+CREATE OR REPLACE PROCEDURE sp_getplayerticker
+(
+	IN PlayerName VARCHAR(100)
+)
+	SELECT a.Id, 
+		a.Name PlayerName, 
+		d.Description, 
+		d.Name TickerName,
+		d.`IsDeleted`,
+		e.`ActiveDate`,
+		e.`InactiveDate`,
+		e.`TimeStart`,
+		e.`TimeEnd`
+	FROM m_players a
+	INNER JOIN m_groupplayers b ON b.Id = a.M_Groupplayer_Id
+	INNER JOIN m_tickerdetails c ON c.M_Groupplayer_Id = b.Id
+	INNER JOIN m_tickers d ON d.Id = c.`M_Ticker_Id`
+	INNER JOIN m_events e ON e.Id = d.`M_Event_Id`
+	WHERE a.Name = PlayerName
+		AND c.IsUpdated = 1
+
+	UNION ALL
+
+	SELECT  a.Id, 
+		a.Name PlayerName, 
+		d.Description, 
+		d.Name TickerName,
+		d.`IsDeleted`,
+		e.`ActiveDate`,
+		e.`InactiveDate`,
+		e.`TimeStart`,
+		e.`TimeEnd`
+	FROM m_players a
+	INNER JOIN m_tickerdetails c ON c.M_Player_Id = a.Id
+	INNER JOIN m_tickers d ON d.Id = c.`M_Ticker_Id`
+	INNER JOIN m_events e ON e.Id = d.`M_Event_Id`
+	WHERE a.Name = PlayerName 
+		AND c.IsUpdated = 1;

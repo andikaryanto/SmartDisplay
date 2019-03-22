@@ -73,4 +73,16 @@ class M_player_object extends Model_object {
 
     }
 
+    public function isExistInTicker($tickerId){
+        $ci =& get_instance();
+        $result = $ci->db->where('M_Ticker_Id', $tickerId)
+                ->where('M_Player_Id', $this->Id)
+                ->get('m_tickerdetails')
+                ->row();
+        if($result)
+            return true;
+        return false;
+
+    }
+
 }

@@ -21,4 +21,5 @@ $lang['info_your_order_confirmed'] = 'Your order is confirmed';
 $lang['info_will_arrive_in'] = 'Your order will arrive in 3- 5 days';
 $lang['info_back_to_home'] = 'Back to Home';
 $lang['info_beginning_balance_not_balance'] = 'Beginning balance is not balance';
+$lang['info_change_assign_type'] = 'If Assign type is changed, all players will be deleted';
 //$lang['msg_orderuomconvertion'] = "Please order Unit Convertion from biggest to smallest unit. for example : Box to Pack (order number = 1), Pack to Pcs (order number = 2) and go on";

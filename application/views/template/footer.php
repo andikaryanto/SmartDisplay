@@ -159,11 +159,21 @@
           });
         }
 
-        function makeAlert(message, size = ""){
-          bootbox.alert({
-            message: message,
-            backdrop: true,
-            size: size
+        function confirmAlert(message, callback){
+          bootbox.confirm({
+          //title: "Destroy planet?",
+          message: message,
+            buttons: {
+                cancel: {
+                    label: "<?= lang('ui_cancel')?>"
+                },
+                confirm: {
+                    label: "<?= lang('ui_confirm')?>"
+                }
+            },
+            callback: function (result) {
+              callback(result);
+            }
           });
         }
       </script>

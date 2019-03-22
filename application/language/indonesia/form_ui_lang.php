@@ -419,4 +419,6 @@ $lang['ui_image'] = "Gambar";
 $lang['ui_video'] = "Video";
 $lang['ui_assigntype'] = "Putar Pada";
 $lang['ui_manyplayers'] = "Beberapa Player";
+$lang['ui_master_ticker'] = "Master Ticker";
+$lang['ui_ticker'] = "Ticker";
 

@@ -109,11 +109,6 @@
                 
               </ul>
             </li>
-            <li><a href="#exampledropdownDropdownTransaction" aria-expanded="false" data-toggle="collapse"> <i class="icon-interface-windows"></i><?= lang('ui_transaction')?></a>
-              <ul id="exampledropdownDropdownTransaction" class="collapse list-unstyled ">
-                <li><a href="<?=  base_url('tjournal');?>"><?= lang('ui_transaction')?></a></li>
-              </ul>
-            </li>
           </ul>
         </div>
         <div class="admin-menu">

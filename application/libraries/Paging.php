@@ -22,6 +22,7 @@ class Paging {
         $data["m_player"] = "m_players";
         $data["m_event"] = "m_events";
         $data["m_multimedia"] = "m_multimedias";
+        $data["m_ticker"] = "m_tickers";
         return $data;
     }
 

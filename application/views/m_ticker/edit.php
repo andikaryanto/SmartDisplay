@@ -10,7 +10,7 @@
   <div class="container-fluid">
     <!-- Page Header-->
     <header> 
-          <h1 class="h3 display"><?= lang('ui_master_multimedia')?> </h1>
+          <h1 class="h3 display"><?= lang('ui_master_ticker')?> </h1>
       </tr>
     </header>
     <div class="row">
@@ -22,13 +22,13 @@
                 <h4><?= lang('ui_data')?></h4>
               </div>
               <div class="col-6 text-right">
-                <a href="<?= base_url('mmultimedia')?>"><i class = "fa fa-table"></i> Data</a>
+                <a href="<?= base_url('mticker')?>"><i class = "fa fa-table"></i> Data</a>
               </div>
             </div>
           </div>
           <div class="card-body">                
-            <form method = "post" action = "<?= base_url('mmultimedia/editsave');?>">
-              <input hidden name ="idmultimedia" id="idmultimedia" value="<?= $model->Id?>">
+            <form method = "post" action = "<?= base_url('mticker/editsave');?>">
+              <input hidden name ="idticker" id="idticker" value="<?= $model->Id?>">
               <input hidden id = "eventid" name = "eventid" value ="<?= $model->M_Event_Id?>">
               <div class="form-group">
                 <div class = "required">
@@ -36,31 +36,13 @@
                   <input id="named" type="text" placeholder="<?= lang('ui_name') ?>" class="form-control" name = "named" value="<?= $model->Name?>" required>
                 </div>
               </div>
-              <div class="form-group">
-                <div class = "required">
-                  <label><?= lang('ui_even')?></label>
-                  <div class="input-group has-success">
-                    
-                    <input id = "evenname" type="text" class="form-control custom-readonly"  value="<?= $model->get_M_Event()->Name?>" readonly>
-                    <div class="input-group-append">
-                      <button id="btnEvenModal" data-toggle="modal" type="button" class="btn btn-primary" data-target="#modalEven"><i class="fa fa-search"></i></button>
-                    </div>
-                  </div>
+              <div class="form-group">   
+                <div class = "required">    
+                  <label><?= lang('ui_description')?></label>
+                  <textarea id="description" placeholder="<?= lang('ui_description') ?>" type="text" class="form-control" name = "description" ><?= $model->Description?></textarea>
                 </div>
               </div>
               <div class="row" >
-                <div class="col-md-6">
-                  <div class="form-group">   
-                    <div class = "required">    
-                      <label><?= lang('ui_type')?></label>
-                      <select id ="type" class="selectpicker form-control" name = 'type'>
-                      <?php foreach($this->M_enums->get_data_by_id(2) as $itemstatus) { ?>
-                        <option value ="<?= $itemstatus->Value?>"><?= lang($itemstatus->Resource)?></option>
-                      <?php } ?>
-                      </select>
-                    </div>
-                  </div>
-                </div>
                 <div class="col-md-6">
                   <div class="form-group">   
                     <div class = "required">       
@@ -70,24 +52,27 @@
                         <option value ="<?= $itemstatus->Value?>"><?= lang($itemstatus->Resource)?></option>
                       <?php } ?>
                       </select>
-                      <small class="form-text text-primary">Note : <?= lang('info_change_assign_type')?></small>
                     </div>
                   </div>
                 </div>
-              </div>
-              <div class="row" >
                 <div class="col-md-6">
-                  <div class="form-group"> 
-                    <div class = "required"> 
-                      <label for="file"><?= lang('ui_multimedia')?></label>
-                      <input accept = "image/jpg, image/jpeg, image/png" id="file" type="file" class="form-control-file" name = "file">
+                  <div class="form-group">
+                    <div class = "required">
+                      <label><?= lang('ui_even')?></label>
+                      <div class="input-group has-success">
+                        
+                        <input id = "evenname" type="text" class="form-control custom-readonly"  value="<?= $model->get_M_Event()->Name?>" readonly>
+                        <div class="input-group-append">
+                          <button id="btnEvenModal" data-toggle="modal" type="button" class="btn btn-primary" data-target="#modalEven"><i class="fa fa-search"></i></button>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
               <div class="form-group">       
                 <input type="submit" value="<?= lang('ui_save')?>" class="btn btn-primary">
-                <a href="<?= base_url('mmultimedia')?>" value="<?= lang('ui_cancel')?>" class="btn btn-primary"><?= lang('ui_cancel')?></a>
+                <a href="<?= base_url('mticker')?>" value="<?= lang('ui_cancel')?>" class="btn btn-primary"><?= lang('ui_cancel')?></a>
               </div>
             </form>
           </div>
@@ -248,7 +233,7 @@
                   //print_r($modeldetail);
                     foreach ($this->M_players->get_list() as $value)
                     {
-                      if($value->IsActive && !$value->isExistInMultimedia($model->Id)){
+                      if($value->IsActive && !$value->isExistInTicker($model->Id)){
                   ?>
                       <tr role = "row" id = <?= $value->Id?>>
                         <td><?= $value->Id?></td>
@@ -312,7 +297,7 @@
                       //print_r($modeldetail);
                         foreach ($this->M_groupplayers->get_list() as $value)
                         {
-                          if(!$value->isExistInMultimedia($model->Id)){
+                          if(!$value->isExistInTicker($model->Id)){
                       ?>
                           <tr class = "rowdetail" role = "row" id = <?= $value->Id?>>
                             <td><?= $value->Id?></td>
@@ -336,7 +321,7 @@
 </div>
 
 <script>
-  var url = "<?= base_url('M_multimedia/adddetailplayer?idmultimedia='.$model->Id.'&assigntype='.$model->AssignType)?>";
+  var url = "<?= base_url('M_ticker/adddetailplayer?idticker='.$model->Id.'&assigntype='.$model->AssignType)?>";
   var tablePlayer;
   var tableGroupPlayer;
   var tablePlayerMultimedia;
@@ -429,7 +414,7 @@
         if(result == true){
           if(data['Id'] != undefined){
             $.ajax({
-              url : "<?= base_url('M_multimedia/deleteDetail')?>",
+              url : "<?= base_url('M_ticker/deleteDetail')?>",
               type: "POST",
               data : {
                 id: data['Id'],
@@ -580,10 +565,10 @@
   function saveDetail(){
     var playerid = JSON.stringify(playergrup);
     $.ajax({
-      url : "<?= base_url('M_multimedia/saveDetail')?>",
+      url : "<?= base_url('M_ticker/saveDetail')?>",
       type: "POST",
       data : {
-        multimediaId: "<?= $model->Id?>",
+        tickerId: "<?= $model->Id?>",
         assigntype : "<?= $model->AssignType?>",
         idplayergroup : playerid
       },
@@ -595,7 +580,6 @@
 
   function initadd(){
     
-    $('select#type option[value="<?= $model->Type ?>"]').attr("selected",true);
     $('select#assigntype option[value="<?= $model->AssignType ?>"]').attr("selected",true);
     $('.selectpicker').selectpicker({
       style : 'btn-primary'
@@ -615,25 +599,14 @@
 
   function deleteAllPlayer(){
     $.ajax({
-      url : "<?= base_url('M_multimedia/deleteAllPlayer')?>",
+      url : "<?= base_url('M_ticker/deleteAllPlayer')?>",
       type : "POST",
       data : {
-        multimediaid : "<?= $model->Id?>"
+        tickerid : "<?= $model->Id?>"
       },
       success : function(e){
         // location.reload();
       }
     });
   }
-
-  $('#type').on('change', function(e){
-
-
-    var myfile = document.getElementById("file");
-    if($(this).val() == 1){
-      myfile.accept = "image/jpg, image/jpeg, image/png";
-    } else {
-      myfile.accept = "video/*";
-    }
-  });
 </script>

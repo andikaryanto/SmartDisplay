@@ -111,6 +111,14 @@ $route['mevent/edit/(:num)'] = 'm_event/edit/$1';
 $route['mevent/editsave'] = 'm_event/editsave';
 $route['mevent/delete'] = 'm_event/delete';
 
+
+$route['mticker'] = 'm_ticker';
+$route['mticker/add'] = 'm_ticker/add';
+$route['mticker/addsave'] = 'm_ticker/addsave';
+$route['mticker/edit/(:num)'] = 'm_ticker/edit/$1';
+$route['mticker/editsave'] = 'm_ticker/editsave';
+$route['mticker/delete'] = 'm_ticker/delete';
+
 $route['mmultimedia'] = 'm_multimedia';
 $route['mmultimedia/add'] = 'm_multimedia/add';
 $route['mmultimedia/addsave'] = 'm_multimedia/addsave';
@@ -126,6 +134,9 @@ $route['report/submission_payment_detail_pdf'] = 'reports/submission_payment_det
 $route['mainsetup'] = 'm_form';
 
 //API
+$route['api/player/multimedia'] = 'api/Player/multimedia';
+
+
 $route['api/mdisaster']['GET'] = 'api_mdisaster/get_disaster';
 $route['api/mdisaster/(:any)/(:any)'] = 'api_mdisaster/get_disaster/$1/$2';
 $route['api/mdisaster/save']['POST'] = 'api_mdisaster/save_disaster';

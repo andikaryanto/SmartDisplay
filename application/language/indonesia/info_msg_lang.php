@@ -19,4 +19,5 @@ $lang['info_your_order_confirmed'] = 'Pesanan kamu telah dikonfirmasi';
 $lang['info_will_arrive_in'] = 'Pesanan kamu akan sampai dalam waktu 3-5 hari kerja';
 $lang['info_back_to_home'] = 'Kembali ke Beranda';
 $lang['info_beginning_balance_not_balance'] = 'Saldo awal tidak seimbang';
+$lang['info_change_assign_type'] = 'Jika "Putar Pada" diganti, semua player akan dihapus';
 //$lang['msg_orderuomconvertion'] = "Urutkan Perubahan ukuran dari paling BESAR ke KECIL. contoh : Box ke Pack (nomor urut = 1), Pack ke Pcs (nomor urut = 2) dan seterusnya";
