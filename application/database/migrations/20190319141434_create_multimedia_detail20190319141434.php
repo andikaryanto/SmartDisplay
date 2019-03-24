@@ -24,9 +24,10 @@ class Migration_create_multimedia_detail20190319141434 extends CI_Migration {
                 'constraint' => 11,
                 'null' => true
             ),
-            'IsUpdated' => array (
+            'IsDeleted' => array (
                 'type' => 'smallint',
-                'constraint' => 11
+                'constraint' => 11,
+                'null' => true
             ),
             'CreatedBy' => array(
                 'type' => 'varchar',

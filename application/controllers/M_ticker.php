@@ -216,13 +216,34 @@ class M_ticker extends CI_Controller {
                 )
             );
 
-            $ticker = $this->M_tickerdetails->get(null, null, $params);
-            if(!$ticker){
-                $newmodel = $this->M_tickerdetails->new_object();
-                $newmodel->M_Ticker_Id =  $tickerId;
-                $newmodel->$field = $playerid;
-                $newmodel->IsUpdated = 1;
-                $newmodel->save();
+            $newmodel = $this->M_tickerdetails->new_object();
+            $newmodel->M_Ticker_Id =  $tickerId;
+            $newmodel->$field = $playerid;
+            $newmodel->IsUpdated = 1;
+            $newdetailid = $newmodel->save();
+
+            if($newdetailid > 0){
+                if($assigntype == 1){
+                    $playermultimedia = $this->M_playertickers->new_object();
+                    $playermultimedia->M_Tickerdetail_Id = $newdetailid;
+                    $playermultimedia->M_Player_Id = $playerid;
+                    $playermultimedia->IsUpdated = 1;
+                    $playermultimedia->save();
+                } else {
+                    $groupplayermodel = $this->M_groupplayers->get($playerid);
+                    if($groupplayermodel){
+                        $players = $groupplayermodel->get_list_M_Player();
+                        if($players){
+                            foreach($players as $player){
+                                $playermultimedia = $this->M_playertickers->new_object();
+                                $playermultimedia->M_Tickerdetail_Id = $newdetailid;
+                                $playermultimedia->M_Player_Id = $player->Id;
+                                $playermultimedia->IsUpdated = 1;
+                                $playermultimedia->save();
+                            }
+                        }
+                    }
+                }
             }
         }
 
@@ -232,8 +253,10 @@ class M_ticker extends CI_Controller {
     public function deleteDetail(){
         $detailid = $this->input->post('id');
         $model = $this->M_tickerdetails->get($detailid);
-        if($model)
-            $model->delete();
+        if($model){
+            $model->IsDeleted = 1;
+            $model->save();
+        }
         
         echo "success";
 
@@ -250,7 +273,8 @@ class M_ticker extends CI_Controller {
         $models = $this->M_tickerdetails->get_list(null, null, $params);
 
         foreach($models as $model){
-            $model->delete();
+            $model->IsDeleted = 1;
+            $model->save();
         }
         echo "success";
     }

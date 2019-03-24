@@ -1,6 +1,6 @@
 <?php
 
-class Migration_create_tickerdetail20190322133934 extends CI_Migration {
+class Migration_create_player_ticker20190324111317 extends CI_Migration {
 
     public function up() {
         $this->load->helper('db_helper');
@@ -10,7 +10,7 @@ class Migration_create_tickerdetail20190322133934 extends CI_Migration {
                 'constraint' => 11,
                 'auto_increment' => TRUE
             ),
-            'M_Ticker_Id' => array(
+            'M_Tickerdetail_Id' => array(
                 'type' => 'INT',
                 'constraint' => 11
             ),
@@ -19,15 +19,9 @@ class Migration_create_tickerdetail20190322133934 extends CI_Migration {
                 'constraint' => 11,
                 'null' => true
             ),
-            'M_Groupplayer_Id' => array(
-                'type' => 'INT',
-                'constraint' => 11,
-                'null' => true
-            ),
-            'IsDeleted' => array (
+            'IsUpdated' => array (
                 'type' => 'smallint',
-                'constraint' => 11,
-                'null' => true
+                'constraint' => 11
             ),
             'CreatedBy' => array(
                 'type' => 'varchar',
@@ -47,18 +41,16 @@ class Migration_create_tickerdetail20190322133934 extends CI_Migration {
                 'type' => 'datetime',
                 'null' => true
             )
-
         ));
         $this->dbforge->add_key('Id', TRUE);
-        $this->dbforge->create_table('m_tickerdetails', TRUE);
-        $this->db->query(add_foreign_key('m_tickerdetails', 'M_Ticker_Id', 'm_tickers(Id)', 'RESTRICT', 'CASCADE'));
-        $this->db->query(add_foreign_key('m_tickerdetails', 'M_Player_Id', 'm_players(Id)', 'RESTRICT', 'CASCADE'));
-        $this->db->query(add_foreign_key('m_tickerdetails', 'M_Groupplayer_Id', 'm_groupplayers(Id)', 'RESTRICT', 'CASCADE'));
-    
+        $this->dbforge->create_table('m_playertickers');
+        $this->db->query(add_foreign_key('m_playertickers', 'M_Tickerdetail_Id', 'm_tickerdetails(Id)', 'RESTRICT', 'CASCADE'));
+        $this->db->query(add_foreign_key('m_playertickers', 'M_Player_Id', 'm_players(Id)', 'RESTRICT', 'CASCADE'));
+
     }
 
     public function down() {
-        // $this->dbforge->drop_table('create_tickerdetail20190322133934');
+        $this->dbforge->drop_table('create_player_ticker20190324111317');
     }
 
 }

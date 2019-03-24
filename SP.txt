@@ -2,8 +2,7 @@ CREATE OR REPLACE PROCEDURE sp_getplayermultimedia
 (
 	IN PlayerName VARCHAR(100)
 )
-	SELECT a.Id, 
-		a.Name PlayerName, 
+	SELECT 	a.Name PlayerName, 
 		d.Url, 
 		d.Name MultimediaName,
 		d.`IsDeleted`,
@@ -12,31 +11,12 @@ CREATE OR REPLACE PROCEDURE sp_getplayermultimedia
 		e.`TimeStart`,
 		e.`TimeEnd`
 	FROM m_players a
-	INNER JOIN m_groupplayers b ON b.Id = a.M_Groupplayer_Id
-	INNER JOIN m_multimediadetails c ON c.M_Groupplayer_Id = b.Id
+	INNER JOIN m_playermultimedias f ON f.M_Player_Id = a.Id
+	INNER JOIN m_multimediadetails c ON c.Id = f.M_Multimediadetail_Id
 	INNER JOIN m_multimedias d ON d.Id = c.`M_Multimedia_Id`
 	INNER JOIN m_events e ON e.Id = d.`M_Event_Id`
 	WHERE a.Name = PlayerName
-		AND c.IsUpdated = 1
-
-	UNION ALL
-
-	SELECT  a.Id, 
-		a.Name PlayerName, 
-		d.Url, 
-		d.Name MultimediaName,
-		d.`IsDeleted`,
-		e.`ActiveDate`,
-		e.`InactiveDate`,
-		e.`TimeStart`,
-		e.`TimeEnd`
-	FROM m_players a
-	INNER JOIN m_multimediadetails c ON c.M_Player_Id = a.Id
-	INNER JOIN m_multimedias d ON d.Id = c.`M_Multimedia_Id`
-	INNER JOIN m_events e ON e.Id = d.`M_Event_Id`
-	WHERE a.Name = PlayerName 
-		AND c.IsUpdated = 1;
-
+		AND f.IsUpdated = 1;
 
 CREATE OR REPLACE PROCEDURE sp_getplayerticker
 (

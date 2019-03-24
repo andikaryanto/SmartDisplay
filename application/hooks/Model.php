@@ -14,6 +14,7 @@ class ModelLoader {
                             'M_enums', 'M_forms', 'M_groupusers', 'M_users','M_usersettings', 'M_userprofiles',
                             'M_groupplayers', 'M_companies', 'M_formsettings', 'R_reports',
                             'R_reportaccessroles', 'M_players', 'M_playerslots', 'M_events','M_multimedias',
-                            'M_multimediadetails', 'M_tickers', 'M_tickerdetails'));
+                            'M_multimediadetails', 'M_tickers', 'M_tickerdetails', 'M_playermultimedias', 
+                            'M_playertickers'));
     }
 }
