@@ -78,7 +78,7 @@
                   <div class="form-group"> 
                     <div class = "required"> 
                       <label for="file"><?= lang('ui_multimedia')?></label>
-                      <input accept = "image/jpg, image/jpeg, image/png" id="file" type="file" class="form-control-file" name = "file[]" required>
+                      <input accept = "image/jpg, image/jpeg, image/png" id="file" type="file" class="form-control-file" name = "file" required>
                     </div>
                   </div>
                 </div>

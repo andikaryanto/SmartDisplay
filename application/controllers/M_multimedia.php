@@ -122,7 +122,7 @@ class M_multimedia extends CI_Controller {
         }
         else
         {
-            if($_FILES['file']['name']){
+            if($_FILES['file']['name'] != ""){
                 $url = $this->upload($_FILES['file'], $model->Id, $type == 1 ? 'images' : 'videos');
                 $model->Url = $url;
             }
@@ -135,7 +135,7 @@ class M_multimedia extends CI_Controller {
                 else 
                 array_push($players, $detail->M_Groupplayer_Id);
             }
-
+            $this->doSaveDetail($model->Id, $model->AssignType, $players);
             $successmsg = $this->paging->get_success_message();
             $this->session->set_flashdata('success_msg', $successmsg);
             redirect('mmultimedia');
@@ -176,9 +176,8 @@ class M_multimedia extends CI_Controller {
                 $this->ftp->delete_file($photo->Path);
         }
 
-        $filename = get_current_date('Ymd_His')."_".$files['name'][0];
-        echo $uploadpath.$filename;
-        $this->ftp->upload($files['tmp_name'][0], $uploadpath.$filename);
+        $filename = get_current_date('Ymd_His')."_".$files['name'];
+        $this->ftp->upload($files['tmp_name'], $uploadpath.$filename);
         $this->ftp->close();
         return $uploadpath.$filename;
     }
@@ -243,12 +242,13 @@ class M_multimedia extends CI_Controller {
         $idplayergroup = $this->input->post('idplayergroup');
 
         $players = json_decode($idplayergroup);
-        $this->doSaveDetail($multimediaId, $assigntype, $players);
+        $this->doSaveDetail($multimediaId, $assigntype, $players, true);
         
     }
 
-    private function doSaveDetail($multimediaId, $assigntype, $players){
+    private function doSaveDetail($multimediaId, $assigntype, $players, $isNewData = false){
         $field = "";
+        $newdetailid = 0;
         foreach($players as $playerid){
 
             if($assigntype == 1){
@@ -257,34 +257,60 @@ class M_multimedia extends CI_Controller {
                 $field = "M_Groupplayer_Id";
             }
             //savedatail
-            $newmodel = $this->M_multimediadetails->new_object();
-            $newmodel->M_Multimedia_Id =  $multimediaId;
-            $newmodel->$field = $playerid;
-            $newmodel->IsDeleted = 0;
-            $newdetailid = $newmodel->save();
+            $params = array(
+                'where' => array(
+                    $field => $playerid,
+                    'IsDeleted' => 0
+                )
+            );
+
+            $detail = $this->M_multimediadetails->get(null, null, $params);
+            if($detail){
+                $newdetailid = $detail->Id;
+            } else {
+                $newmodel = $this->M_multimediadetails->new_object();
+                $newmodel->M_Multimedia_Id =  $multimediaId;
+                $newmodel->$field = $playerid;
+                $newmodel->IsDeleted = 0;
+                $newdetailid = $newmodel->save();
+            }
 
             //save player
-            if($newdetailid > 0){
-                if($assigntype == 1){
-                    $playermultimedia = $this->M_playermultimedias->new_object();
-                    $playermultimedia->M_Multimediadetail_Id = $newdetailid;
-                    $playermultimedia->M_Player_Id = $playerid;
-                    $playermultimedia->IsUpdated = 1;
-                    $playermultimedia->save();
-                } else {
-                    $groupplayermodel = $this->M_groupplayers->get($playerid);
-                    if($groupplayermodel){
-                        $players = $groupplayermodel->get_list_M_Player();
-                        if($players){
-                            foreach($players as $player){
-                                $playermultimedia = $this->M_playermultimedias->new_object();
-                                $playermultimedia->M_Multimediadetail_Id = $newdetailid;
-                                $playermultimedia->M_Player_Id = $player->Id;
-                                $playermultimedia->IsUpdated = 1;
-                                $playermultimedia->save();
+            if($isNewData){
+                if($newdetailid > 0){
+                    if($assigntype == 1){
+                        $playermultimedia = $this->M_playermultimedias->new_object();
+                        $playermultimedia->M_Multimediadetail_Id = $newdetailid;
+                        $playermultimedia->M_Player_Id = $playerid;
+                        $playermultimedia->IsUpdated = 1;
+                        $playermultimedia->save();
+                    } else {
+                        $groupplayermodel = $this->M_groupplayers->get($playerid);
+                        if($groupplayermodel){
+                            $players = $groupplayermodel->get_list_M_Player();
+                            if($players){
+                                foreach($players as $player){
+                                    $playermultimedia = $this->M_playermultimedias->new_object();
+                                    $playermultimedia->M_Multimediadetail_Id = $newdetailid;
+                                    $playermultimedia->M_Player_Id = $player->Id;
+                                    $playermultimedia->IsUpdated = 1;
+                                    $playermultimedia->save();
+                                }
                             }
                         }
                     }
+                }
+            } else {
+                $params = array(
+                    'where' => array(
+                         'M_Multimediadetail_Id' => $newdetailid
+                    )
+                );
+
+                $players = $this->M_playermultimedias->get_list(null, null, $params);
+                foreach($players as $player){
+                    $player->IsUpdated = 1;
+                    $player->save();
                 }
             }
 

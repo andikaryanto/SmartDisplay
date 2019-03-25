@@ -94,14 +94,19 @@ class M_ticker extends CI_Controller {
     public function editsave()
     {   
         // your editsave method goes here
-        $id = $this->input->post('idgroupplayer');
+        $id = $this->input->post('idticker');
         $name = $this->input->post('named');
+        $eventid = $this->input->post('eventid');
         $description = $this->input->post('description');
+        $assigntype = $this->input->post('assigntype');
 
         $model = $this->M_tickers->get($id);
         $oldmodel = clone $model;
-        $model->GroupName = $name;
+
+        $model->Name = $name;
         $model->Description = $description;
+        $model->M_Event_Id = $eventid;
+        $model->AssignType = $assigntype;
         $model->ModifiedBy = $_SESSION[get_variable().'userdata']['Username'];
         //echo json_encode($model);
 
@@ -115,6 +120,15 @@ class M_ticker extends CI_Controller {
         else
         {
             $model->save();
+            $players = array();
+            foreach($model->get_list_M_Tickerdetail() as $detail){
+                if($model->AssignType == 1)
+                    array_push($players, $detail->M_Player_Id);
+                else 
+                    array_push($players, $detail->M_Groupplayer_Id);
+
+            }
+            $this->doSaveDetail($model->Id, $model->AssignType, $players);
             $successmsg = $this->paging->get_success_message();
             $this->session->set_flashdata('success_msg', $successmsg);
             redirect('mticker');
@@ -201,7 +215,12 @@ class M_ticker extends CI_Controller {
         $idplayergroup = $this->input->post('idplayergroup');
 
         $players = json_decode($idplayergroup);
+        $this->doSaveDetail($tickerId, $assigntype, $players, true);
+        
+    }
+    private function doSaveDetail($tickerId, $assigntype, $players, $isNewData = false){
         $field = "";
+        $newdetailid = 0;
         foreach($players as $playerid){
 
             if($assigntype == 1){
@@ -209,42 +228,66 @@ class M_ticker extends CI_Controller {
             } else {
                 $field = "M_Groupplayer_Id";
             }
-
+            //savedatail
             $params = array(
                 'where' => array(
-                    $field => $playerid
+                    $field => $playerid,
+                    'IsDeleted' => 0
                 )
             );
 
-            $newmodel = $this->M_tickerdetails->new_object();
-            $newmodel->M_Ticker_Id =  $tickerId;
-            $newmodel->$field = $playerid;
-            $newmodel->IsUpdated = 1;
-            $newdetailid = $newmodel->save();
+            $detail = $this->M_tickerdetails->get(null, null, $params);
+            // echo json_encode($detail);
+            if($detail){
+                $newdetailid = $detail->Id;
+            } else {
+                $newmodel = $this->M_tickerdetails->new_object();
+                $newmodel->M_Ticker_Id =  $tickerId;
+                $newmodel->$field = $playerid;
+                $newmodel->IsDeleted = 0;
+                $newdetailid = $newmodel->save();
+            }
 
-            if($newdetailid > 0){
-                if($assigntype == 1){
-                    $playermultimedia = $this->M_playertickers->new_object();
-                    $playermultimedia->M_Tickerdetail_Id = $newdetailid;
-                    $playermultimedia->M_Player_Id = $playerid;
-                    $playermultimedia->IsUpdated = 1;
-                    $playermultimedia->save();
-                } else {
-                    $groupplayermodel = $this->M_groupplayers->get($playerid);
-                    if($groupplayermodel){
-                        $players = $groupplayermodel->get_list_M_Player();
-                        if($players){
-                            foreach($players as $player){
-                                $playermultimedia = $this->M_playertickers->new_object();
-                                $playermultimedia->M_Tickerdetail_Id = $newdetailid;
-                                $playermultimedia->M_Player_Id = $player->Id;
-                                $playermultimedia->IsUpdated = 1;
-                                $playermultimedia->save();
+            //save player
+            if($isNewData){
+                if($newdetailid > 0){
+                    if($assigntype == 1){
+                        $playerticker = $this->M_playertickers->new_object();
+                        $playerticker->M_Tickerdetail_Id = $newdetailid;
+                        $playerticker->M_Player_Id = $playerid;
+                        $playerticker->IsUpdated = 1;
+                        $playerticker->save();
+                    } else {
+                        $groupplayermodel = $this->M_groupplayers->get($playerid);
+                        if($groupplayermodel){
+                            $players = $groupplayermodel->get_list_M_Player();
+                            if($players){
+                                foreach($players as $player){
+                                    $playerticker = $this->M_playertickers->new_object();
+                                    $playerticker->M_Tickerdetail_Id = $newdetailid;
+                                    $playerticker->M_Player_Id = $player->Id;
+                                    $playerticker->IsUpdated = 1;
+                                    $playerticker->save();
+                                }
                             }
                         }
                     }
                 }
+            } else {
+                $params = array(
+                    'where' => array(
+                         'M_Tickerdetail_Id' => $newdetailid
+                    )
+                );
+
+                $players = $this->M_playertickers->get_list(null, null, $params);
+                echo json_encode($players);
+                foreach($players as $player){
+                    $player->IsUpdated = 1;
+                    $player->save();
+                }
             }
+
         }
 
         echo "success";

@@ -27,7 +27,7 @@
             </div>
           </div>
           <div class="card-body">                
-            <form method = "post" action = "<?= base_url('mmultimedia/editsave');?>">
+            <form method = "post" action = "<?= base_url('mmultimedia/editsave');?>" enctype= "multipart/form-data">
               <input hidden name ="idmultimedia" id="idmultimedia" value="<?= $model->Id?>">
               <input hidden id = "eventid" name = "eventid" value ="<?= $model->M_Event_Id?>">
               <div class="form-group">
