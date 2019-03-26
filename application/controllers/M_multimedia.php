@@ -323,6 +323,10 @@ class M_multimedia extends CI_Controller {
         $detailid = $this->input->post('id');
         $model = $this->M_multimediadetails->get($detailid);
         if($model){
+            foreach($model->get_list_M_Playermultimedia() as $playermulmed){
+                $playermulmed->IsUpdated = 1;
+                $playermulmed->save();
+            }
             $model->IsDeleted = 1;
             $model->save();
         }
@@ -342,6 +346,7 @@ class M_multimedia extends CI_Controller {
         $models = $this->M_multimediadetails->get_list(null, null, $params);
 
         foreach($models as $model){
+            $model->IsUpdated = 1;
             $model->IsDeleted = 1;
             $model->save();
         }

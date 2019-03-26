@@ -7,3 +7,17 @@ function typeTrans_enum(){
 
     return $enums;
 }
+
+function playerstatus_enum(){
+    $enums['available'] = 1;
+    $enums['registered'] = 2;
+    $enums['notregistered'] = 3;
+    $enums['notlisted'] = 4;
+    return $enums;
+}
+
+function playerstatusarr_enum($strstatus){
+    $status['code'] = playerstatus_enum()[$strstatus];
+    $status['status'] = $strstatus;
+    return $status;
+}

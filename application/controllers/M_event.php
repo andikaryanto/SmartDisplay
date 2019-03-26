@@ -133,6 +133,7 @@ class M_event extends CI_Controller
         else
         {
             $model->save();
+            $this->updateMplayermultimedia($model);
             $successmsg = $this->paging->get_success_message();
             $this->session->set_flashdata('success_msg', $successmsg);
             redirect('mevent');
@@ -158,6 +159,18 @@ class M_event extends CI_Controller
         } else {
             echo json_encode(delete_status("", FALSE, TRUE));
         }
+    }
+
+    private function updateMplayermultimedia($model){
+        foreach($model->get_list_M_Multimedia() as $multimedia){
+            foreach($multimedia->get_list_M_Multimediadetail() as $detail){
+                foreach($detail->get_list_M_Playermultimedia() as $playermulmed){
+                    $playermulmed->IsUpdated = 1;
+                    $playermulmed->save();
+                }
+            }
+        }
+
     }
     
 }

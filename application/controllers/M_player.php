@@ -157,5 +157,9 @@ class M_player extends CI_Controller
             $this->load->view('forbidden/forbidden');
         }   
     }
+
+    public function register(){
+        $this->load->view('m_player/register');  
+    }
     
 }

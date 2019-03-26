@@ -111,7 +111,6 @@ $route['mevent/edit/(:num)'] = 'm_event/edit/$1';
 $route['mevent/editsave'] = 'm_event/editsave';
 $route['mevent/delete'] = 'm_event/delete';
 
-
 $route['mticker'] = 'm_ticker';
 $route['mticker/add'] = 'm_ticker/add';
 $route['mticker/addsave'] = 'm_ticker/addsave';
@@ -133,8 +132,14 @@ $route['report/submission_payment_detail_pdf'] = 'reports/submission_payment_det
 
 $route['mainsetup'] = 'm_form';
 
+
+$route['playerregister'] = 'player/Players/register';
+$route['player/(:any)'] = 'player/Players/index/$1';
+$route['player/getMultimediaByPlayer/(:any)'] = 'player/Players/getMultimediaByPlayer/$1';
+
 //API
 $route['api/player/multimedia'] = 'api/Player/multimedia';
+$route['api/player/register'] = 'api/Player/register';
 
 
 $route['api/mdisaster']['GET'] = 'api_mdisaster/get_disaster';
