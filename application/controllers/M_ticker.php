@@ -231,6 +231,7 @@ class M_ticker extends CI_Controller {
             //savedatail
             $params = array(
                 'where' => array(
+                    'M_Ticker_Id' => $tickerId,
                     $field => $playerid,
                     'IsDeleted' => 0
                 )
@@ -299,6 +300,10 @@ class M_ticker extends CI_Controller {
         if($model){
             $model->IsDeleted = 1;
             $model->save();
+            foreach($model->get_list_M_Playerticker() as $playertikcer){
+                $playertikcer->IsUpdated = 1;
+                $playertikcer->save();
+            }
         }
         
         echo "success";
@@ -315,9 +320,13 @@ class M_ticker extends CI_Controller {
 
         $models = $this->M_tickerdetails->get_list(null, null, $params);
 
-        foreach($models as $model){
+        foreach($models as $model){ 
             $model->IsDeleted = 1;
             $model->save();
+            foreach($model->get_list_M_Playerticker() as $playertikcer){
+                $playertikcer->IsUpdated = 1;
+                $playertikcer->save();
+            }
         }
         echo "success";
     }

@@ -65,6 +65,7 @@ class M_player_object extends Model_object {
         $ci =& get_instance();
         $result = $ci->db->where('M_Multimedia_Id', $multimediaId)
                 ->where('M_Player_Id', $this->Id)
+                ->where('IsDeleted', 0)
                 ->get('m_multimediadetails')
                 ->row();
         if($result)
@@ -77,6 +78,7 @@ class M_player_object extends Model_object {
         $ci =& get_instance();
         $result = $ci->db->where('M_Ticker_Id', $tickerId)
                 ->where('M_Player_Id', $this->Id)
+                ->where('IsDeleted', 0)
                 ->get('m_tickerdetails')
                 ->row();
         if($result)

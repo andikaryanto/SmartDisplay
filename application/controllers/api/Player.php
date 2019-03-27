@@ -81,6 +81,7 @@ class Player extends yidas\rest\Controller
   // function
 
   private function getMultimedia($playername){
+    $multimedia = array();
     $params = array(
       'where' => array(
         'Name' => $playername
@@ -110,24 +111,26 @@ class Player extends yidas\rest\Controller
         }
 
         $player = array(
-            'PlayerId' => $results[0]->PlayerId,
-            'PlayerName' => $results[0]->PlayerName
+            'playerId' => $results[0]->PlayerId,
+            'playerName' => $results[0]->PlayerName
         );
 
         
         $return['result'] = $player;
-        $return['result']['Multimedia'] = $multimedia;
+        $return['result']['multimedia'] = $multimedia;
         $return['status'] = playerstatusarr_enum('registered');
 
         $this->saveTplayer($results);
+
+        return $return;
         
         
       } else {
         $return['result'] = null;
         $return['status'] = playerstatusarr_enum('registered');
-      }
 
-      return $return;
+        return $return;
+      }
       
     } else {
 
@@ -149,7 +152,7 @@ class Player extends yidas\rest\Controller
       $mplayermulmed = $this->M_playermultimedias->get(null, null, $params);
       if($mplayermulmed){
         $mplayermulmed->IsUpdated = 0;
-        // $mplayermulmed->save();
+        $mplayermulmed->save();
         $downloadUrl = $this->downloadMultimedia($player->Url);
 
         $paramsmulmed = array(
@@ -160,26 +163,28 @@ class Player extends yidas\rest\Controller
         );
         $tplayer = $this->T_playermultimedias->get(null, null, $paramsmulmed);
         if($tplayer){
-          if($tplayer->Url != $player->Url || 
-              $tplayer->ActiveDate != $player->ActiveDate ||
-              $tplayer->InactiveDate != $player->InactiveDate ||
-              $tplayer->IsDeleted != $player->IsDeleted || 
-              $tplayer->TimeStart != $player->TimeStart || 
-              $tplayer->TimeEnd != $player->TimeEnd){
+          if($player->IsDeleted == 0){
+            if($tplayer->Url != $player->Url || 
+                $tplayer->ActiveDate != $player->ActiveDate ||
+                $tplayer->InactiveDate != $player->InactiveDate ||
+                $tplayer->TimeStart != $player->TimeStart || 
+                $tplayer->TimeEnd != $player->TimeEnd){
 
-                $tplayer->PlayerId = $player->PlayerId;
-                $tplayer->PlayerName = $mplayermulmed->get_M_Player()->Name;
-                $tplayer->MultimediaId = $player->MultimediaId;
-                $tplayer->Url = $player->Url;
-                $tplayer->MultimediaName = $player->MultimediaName;
-                $tplayer->IsDeleted = $player->IsDeleted;
-                $tplayer->ActiveDate = $player->ActiveDate;
-                $tplayer->InactiveDate = $player->InactiveDate;
-                $tplayer->TimeStart = $player->TimeStart;
-                $tplayer->TimeEnd = $player->TimeEnd;
-                $tplayer->DownloadedUrl = $downloadUrl;
-                $tplayer->save();
-            }
+                  $tplayer->PlayerId = $player->PlayerId;
+                  $tplayer->PlayerName = $mplayermulmed->get_M_Player()->Name;
+                  $tplayer->MultimediaId = $player->MultimediaId;
+                  $tplayer->Url = $player->Url;
+                  $tplayer->MultimediaName = $player->MultimediaName;
+                  $tplayer->ActiveDate = $player->ActiveDate;
+                  $tplayer->InactiveDate = $player->InactiveDate;
+                  $tplayer->TimeStart = $player->TimeStart;
+                  $tplayer->TimeEnd = $player->TimeEnd;
+                  $tplayer->DownloadedUrl = $downloadUrl;
+                  $tplayer->save();
+              }
+          } else {
+            $tplayer->delete();
+          }
         } else {
           $tplayermulmed = $this->T_playermultimedias->new_object();
           $tplayermulmed->PlayerId = $player->PlayerId;

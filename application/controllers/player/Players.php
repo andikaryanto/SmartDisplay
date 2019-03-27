@@ -12,16 +12,48 @@ class Players extends CI_Controller
     }
 
     public function index($playername){
-        $this->load->view('player/player');  
+        $params = array(
+            'where' => array(
+                'Name' => $playername,
+                'IsRegistered' => 1
+            )
+        );
+        $player = $this->M_players->get(null, null, $params);
+        if($player){
+            $datas = array();
+            $params = array(
+                'where' =>array (
+                    'PlayerName' => $player->Name 
+                )
+            );
+
+            $model = $this->T_playermultimedias->get_list(null, null,$params);
+            foreach($model as $playermulmed){
+                $currentdate = get_current_datetime();
+                $activedate = get_datetime(get_formated_date($playermulmed->ActiveDate, 'Y-m-d'));
+                $inactivedate = get_datetime(get_formated_date($playermulmed->InactiveDate, 'Y-m-d'), 23,59,59);
+                if($currentdate >= $activedate && $currentdate <= $inactivedate){
+                    if (time() >= strtotime($playermulmed->TimeStart) && time() <= strtotime($playermulmed->TimeEnd)) {
+                        array_push($datas, $playermulmed);
+                    }
+                }
+            }
+
+            $data['playerId'] = $player->Id;
+            $data['playerName'] = $player->Name;
+            $data['model'] = $datas;
+            $this->load->view('player/player', $data);  
+        } else {
+            $this->load->view('forbidden/playernotfound');  
+        }
+        // 
 
     }
+
+    
 
     public function register(){
         $this->load->view('player/register');  
-    }
-
-    public function getMultimediaByPlayer($player){
-        
     }
     
 }

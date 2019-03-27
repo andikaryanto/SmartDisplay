@@ -75,6 +75,25 @@ function get_current_date($format = null){
     
 }
 
+function get_current_datetime(){
+    $date = new DateTime();
+    $date->setTimezone(new DateTimeZone('Asia/Jakarta'));
+    return $date;
+}
+
+function get_datetime($strdate = null, $hour = 0, $minute = 0 , $second = 0){
+
+    $date;
+    if(!empty($strdate))
+        $date = new DateTime($strdate);
+    else 
+        $date = new DateTime();
+    
+    $date->setTimezone(new DateTimeZone('Asia/Jakarta'));
+    $newdate = date_time_set($date, $hour, $minute, $second);
+    return $newdate;
+}
+
 function get_date($strdate, $add = '30 days', $format = "Y-m-d H:i:s"){
     // $dateadd;
     // if(!empty($add));
