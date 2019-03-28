@@ -109,7 +109,7 @@ html,body {
 </div>	
 <div class="ticker">
     <div class="example1">
-            <h3>Adnbahosidncoiasncnaikncikancikadnmasdasdasdasdasdasdasdasdasdasdasdasdasdasdsa </h3>
+            <h3><?= $ticker ?></h3>
     </div>
 </div>
 

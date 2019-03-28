@@ -139,6 +139,7 @@ $route['player/getMultimediaByPlayer/(:any)'] = 'player/Players/getMultimediaByP
 
 //API
 $route['api/player/multimedia'] = 'api/Player/multimedia';
+$route['api/player/ticker'] = 'api/Player/ticker';
 $route['api/player/register'] = 'api/Player/register';
 
 

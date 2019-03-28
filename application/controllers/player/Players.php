@@ -20,6 +20,7 @@ class Players extends CI_Controller
         );
         $player = $this->M_players->get(null, null, $params);
         if($player){
+            $tickerdata="";
             $datas = array();
             $params = array(
                 'where' =>array (
@@ -28,6 +29,7 @@ class Players extends CI_Controller
             );
 
             $model = $this->T_playermultimedias->get_list(null, null,$params);
+            $tickers = $this->T_playertickers->get_list(null, null,$params);
             foreach($model as $playermulmed){
                 $currentdate = get_current_datetime();
                 $activedate = get_datetime(get_formated_date($playermulmed->ActiveDate, 'Y-m-d'));
@@ -38,10 +40,14 @@ class Players extends CI_Controller
                     }
                 }
             }
+            foreach($tickers as $ticker){
+                $tickerdata .= $ticker->TickerContent." ";
+            }
 
             $data['playerId'] = $player->Id;
             $data['playerName'] = $player->Name;
             $data['model'] = $datas;
+            $data['ticker'] = $tickerdata;
             $this->load->view('player/player', $data);  
         } else {
             $this->load->view('forbidden/playernotfound');  

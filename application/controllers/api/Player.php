@@ -4,11 +4,7 @@ class Player extends yidas\rest\Controller
 {
 
   public function multimedia()
-  {
-    $multimedia = array();
-    $player;
-    $return;
-    
+  {    
     $playername = $this->input->get('playername');
 
     $return = $this->getMultimedia($playername);
@@ -19,7 +15,10 @@ class Player extends yidas\rest\Controller
   public function ticker()
   { 
     $playername = $this->input->get('playername');
-    $this->response->json($this->db->query("CALL sp_getplayerticker('".$playername."')")->result(), 200);
+
+    $return = $this->getTicker($playername);
+
+    $this->response->json($return, 200);
   }
 
   public function register(){
@@ -80,6 +79,64 @@ class Player extends yidas\rest\Controller
 
   // function
 
+  private function getTicker($playername){
+    $ticker = array();
+    $params = array(
+      'where' => array(
+        'Name' => $playername
+      )
+    );
+
+    $player = $this->M_players->get(null, null, $params);
+
+    if($player){
+      $DB1 = $this->load->database($this->db->database, TRUE);
+      $results = $DB1->query("CALL sp_getplayerticker('".$playername."')")->result();
+      freeDBResource($DB1->conn_id);
+
+      if($results){
+        foreach($results as $result){
+          $tick['PlayerTickerId'] = $result->PlayerTickerId;
+          $tick['TickerName'] = $result->TickerName;
+          $tick['TickerContent'] = $result->TickerContent;
+          $tick['IsDeleted'] = $result->IsDeleted;
+          $tick['ActiveDate'] = $result->ActiveDate;
+          $tick['InactiveDate'] = $result->InactiveDate;
+          $tick['TimeStart'] = $result->TimeStart;
+          $tick['TimeEnd'] = $result->TimeEnd;
+
+          array_push($ticker, $tick);
+        }
+
+        $player = array(
+            'playerId' => $results[0]->PlayerId,
+            'playerName' => $results[0]->PlayerName
+        );
+
+        
+        $return['result'] = $player;
+        $return['result']['ticker'] = $ticker;
+        $return['status'] = playerstatusarr_enum('registered');
+        $this->saveTplayerticker($results);
+
+        return $return;
+        
+        
+      } else {
+        $return['result'] = null;
+        $return['status'] = playerstatusarr_enum('registered');
+
+        return $return;
+      }
+      
+    } else {
+
+      $return['result'] = null;
+      $return['status'] = playerstatusarr_enum('notlisted');
+      return $return;
+    }
+  }
+
   private function getMultimedia($playername){
     $multimedia = array();
     $params = array(
@@ -120,7 +177,7 @@ class Player extends yidas\rest\Controller
         $return['result']['multimedia'] = $multimedia;
         $return['status'] = playerstatusarr_enum('registered');
 
-        $this->saveTplayer($results);
+        $this->saveTplayermultimedia($results);
 
         return $return;
         
@@ -140,7 +197,7 @@ class Player extends yidas\rest\Controller
     }
   }
 
-  private function saveTplayer($playermultimedia){
+  private function saveTplayermultimedia($playermultimedia){
     foreach($playermultimedia as $player){
       $params = array(
         'where' => array(
@@ -203,6 +260,71 @@ class Player extends yidas\rest\Controller
 
         $mplayermulmed->IsUpdated = 0;
         $mplayermulmed->save();
+      }
+    }
+  }
+
+  private function saveTplayerticker($playerticker){
+    foreach($playerticker as $player){
+      $params = array(
+        'where' => array(
+          'M_Player_Id' => $player->PlayerId,
+          'Id' => $player->PlayerTickerId
+        )
+      );
+
+      $mplayerticker = $this->M_playertickers->get(null, null, $params);
+      if($mplayerticker){
+        // $mplayerticker->IsUpdated = 0;
+        // $mplayerticker->save();
+
+        $paramsmulmed = array(
+          'where' => array(
+            'PlayerId' => $player->PlayerId,
+            'TickerId' => $player->TickerId
+          )
+        );
+        $tplayer = $this->T_playertickers->get(null, null, $paramsmulmed);
+        echo json_encode($tplayer);
+        if($tplayer){
+          if($player->IsDeleted == 0){
+            if($tplayer->TickerContent != $player->TickerContent || 
+                $tplayer->ActiveDate != $player->ActiveDate ||
+                $tplayer->InactiveDate != $player->InactiveDate ||
+                $tplayer->TimeStart != $player->TimeStart || 
+                $tplayer->TimeEnd != $player->TimeEnd){
+
+                  $tplayer->PlayerId = $player->PlayerId;
+                  $tplayer->PlayerName = $mplayerticker->get_M_Player()->Name;
+                  $tplayer->TickerId = $player->TickerId;
+                  $tplayer->TickerContent = $player->TickerContent;
+                  $tplayer->TickerName = $player->TickerName;
+                  $tplayer->ActiveDate = $player->ActiveDate;
+                  $tplayer->InactiveDate = $player->InactiveDate;
+                  $tplayer->TimeStart = $player->TimeStart;
+                  $tplayer->TimeEnd = $player->TimeEnd;
+                  $tplayer->save();
+              }
+          } else {
+            $tplayer->delete();
+          }
+        } else {
+          $tplayermulmed = $this->T_playertickers->new_object();
+          $tplayermulmed->PlayerId = $player->PlayerId;
+          $tplayermulmed->PlayerName = $mplayerticker->get_M_Player()->Name;
+          $tplayermulmed->TickerId = $player->TickerId;
+          $tplayermulmed->TickerContent = $player->TickerContent;
+          $tplayermulmed->TickerName = $player->TickerName;
+          $tplayermulmed->IsDeleted = $player->IsDeleted;
+          $tplayermulmed->ActiveDate = $player->ActiveDate;
+          $tplayermulmed->InactiveDate = $player->InactiveDate;
+          $tplayermulmed->TimeStart = $player->TimeStart;
+          $tplayermulmed->TimeEnd = $player->TimeEnd;
+          $tplayermulmed->save();
+        }
+
+        $mplayerticker->IsUpdated = 0;
+        $mplayerticker->save();
       }
     }
   }
