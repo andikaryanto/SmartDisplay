@@ -41,7 +41,7 @@ class Players extends CI_Controller
                 }
             }
             foreach($tickers as $ticker){
-                $tickerdata .= $ticker->TickerContent." ";
+                $tickerdata .= '<img class = "imgRunning" src="'.base_url('resources/uploads/tickers/20190329_112710_img_358304.png').'"><div class = "textRunning">'.$ticker->TickerContent.'</div>';
             }
 
             $paramtickerset = array(

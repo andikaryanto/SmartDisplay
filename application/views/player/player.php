@@ -49,7 +49,7 @@ html,body {
 	padding-left: 5px;
 	padding-right: 5px;
 	float: left;
-	margin: auto;
+	margin: 10px 20px;
 	
 }
 
@@ -65,14 +65,15 @@ html,body {
 	justify-content: center;
 	flex-direction: row;
 	text-align: center;
-
+	margin: 5px 0px;
 	}
 
 .example1 {
- height: 50px;	
+ height: 100%;	
  overflow: hidden;
  position: relative;
- padding:6px;
+ margin : auto;
+ /* padding:6px; */
 }
 .example1 .mover {
  font-size: 3em;
@@ -201,10 +202,10 @@ html,body {
     <div class="example1">
 			
             <div class="mover">
-				<img class = "imgRunning" src="<?= base_url('resources/uploads/tickers/20190329_112710_img_358304.png')?>">
-				<div class = "textRunning"><?= $ticker ?></div>
+				<!-- <img class = "imgRunning" src="<?= base_url('resources/uploads/tickers/20190329_112710_img_358304.png')?>">
+				<div class = "textRunning"><?= $ticker ?></div> -->
+				<?= $ticker ?>
 			</div>
-
 	</div>
 	<!-- <div class="example1">
 		<div class = "mover">
