@@ -75,10 +75,18 @@
           <h5 class="sidenav-heading">Main</h5>
           <ul id="side-main-menu" class="side-menu list-unstyled">                  
             <li><a href="<?=  base_url('office');?>"> <i class="icon-home"></i>Home</a></li>
-            <li><a href="#exampledropdownDropdownGeneral" aria-expanded="false" data-toggle="collapse"> <i class="icon-interface-windows"></i><?= lang('ui_setting')?></a>
-              <ul id="exampledropdownDropdownGeneral" class="collapse list-unstyled ">
-                <!-- <li><a href="<?=  base_url('mainsetup');?>"><?= lang('ui_mainsetup')?></a></li> -->
-                <li><a href="<?=  base_url('mcompany');?>"><?= lang('ui_company')?></a></li>
+            <li><a href="#exampledropdownDropdownSetup" aria-expanded="false" data-toggle="collapse"> <i class="icon-interface-windows"></i><?= lang('ui_setting')?></a>
+              <ul id="exampledropdownDropdownSetup" class="collapse list-unstyled ">
+              <?php 
+              foreach($setupmenu as $master) {
+                if(is_permitted($_SESSION[get_variable().'userdata']['M_Groupuser_Id'], $master->FormName, "Read")){
+              ?>
+                <li><a href="<?= base_url($master->IndexRoute);?>"><?= lang($master->Resource)?></a></li>
+              <?php 
+                }
+              }
+              ?>
+                
               </ul>
             </li>
             <li><a href="#exampledropdownDropdownMaster" aria-expanded="false" data-toggle="collapse"> <i class="icon-interface-windows"></i>Master</a>

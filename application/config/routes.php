@@ -125,6 +125,15 @@ $route['mmultimedia/edit/(:num)'] = 'm_multimedia/edit/$1';
 $route['mmultimedia/editsave'] = 'm_multimedia/editsave';
 $route['mmultimedia/delete'] = 'm_multimedia/delete';
 
+
+$route['mtickersetting'] = 'm_tickersetting';
+$route['mtickersetting/add'] = 'm_tickersetting/add';
+$route['mtickersetting/addsave'] = 'm_tickersetting/addsave';
+$route['mtickersetting/edit/(:num)'] = 'm_tickersetting/edit/$1';
+$route['mtickersetting/editsave'] = 'm_tickersetting/editsave';
+$route['mtickersetting/delete'] = 'm_tickersetting/delete';
+
+
 $route['report'] = 'reports';
 $route['report/submission_payment_receipt_pdf/(:num)'] = 'reports/submission_payment_receipt_pdf/$1';
 $route['report/submission_payment_detail_pdf'] = 'reports/submission_payment_detail_pdf';

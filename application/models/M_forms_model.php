@@ -18,7 +18,7 @@ class M_forms_model extends MY_Model {
 
     public function get_data_by_classname($className){  
         // get data by primary key
-        $notId = array(1,2);
+        $notId = array(1,2,3,4);
 
         $this->db->where('ClassName', $className);
         $this->db->where_not_in('Id', $notId);

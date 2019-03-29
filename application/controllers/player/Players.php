@@ -44,10 +44,18 @@ class Players extends CI_Controller
                 $tickerdata .= $ticker->TickerContent." ";
             }
 
+            $paramtickerset = array(
+                'where' => array(
+                    'IsActive' => 1
+                )
+            );
+            $tickerset = $this->M_tickersettings->get(null, null, $paramtickerset);
+
             $data['playerId'] = $player->Id;
             $data['playerName'] = $player->Name;
             $data['model'] = $datas;
             $data['ticker'] = $tickerdata;
+            $data['tickersetting'] = $tickerset;
             $this->load->view('player/player', $data);  
         } else {
             $this->load->view('forbidden/playernotfound');  

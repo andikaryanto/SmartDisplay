@@ -402,6 +402,11 @@ $lang['ui_assigntype'] = "Play At";
 $lang['ui_manyplayers'] = "Many Players";
 $lang['ui_master_ticker'] = "Master Ticker";
 $lang['ui_ticker'] = "Ticker";
+$lang['ui_master_tickersetting'] = "Master Ticker Setting";
+$lang['ui_tickersetting'] = "Ticker Setting";
+$lang['ui_backgroundcolor'] = "Background Color";
+$lang['ui_fontcolor'] = "Font Color";
+$lang['ui_height'] = "Height";
 
 
 

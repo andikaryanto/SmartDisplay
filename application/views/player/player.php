@@ -29,42 +29,132 @@ html,body {
 }
 .ticker{
     
-    background:black;
+    background:<?= $tickersetting->BackGroundColor ?>;
 	width: 100%;
-	height: 10%;
+	height: <?= $tickersetting->Height ?>%;
 	position: absolute;
-    top:90%;
+    top: <?= 100 - $tickersetting->Height ?>%;
 }
 
 .slider-wrapper > .slide:first-child {
 	opacity: 1;
 }
 
+.imgRunning
+{
+	position: initial;
+	width: 40px;
+	height: 40px; 
+	max-width: 50px !important;
+	padding-left: 5px;
+	padding-right: 5px;
+	float: left;
+	margin: auto;
+	
+}
+
+.textRunning{
+	color: <?= $tickersetting->FontColor ?>;
+	font-size: 1em;
+	margin-top: auto;
+	margin-bottom: auto;
+	//padding: 5px;
+	line-height: 50px;
+	float: left;
+	display: flex;
+	justify-content: center;
+	flex-direction: row;
+	text-align: center;
+
+	}
+
 .example1 {
  height: 50px;	
  overflow: hidden;
  position: relative;
- /* margin:auto; */
  padding:6px;
 }
-.example1 h3 {
+.example1 .mover {
  font-size: 3em;
- color: limegreen;
  position: absolute;
  width: 100%;
  height: 100%;
  margin: 0;
  line-height: 50px;
  text-align: center;
- /* Starting position */
  -moz-transform:translateX(100%);
  -webkit-transform:translateX(100%);	
  transform:translateX(100%);
- /* Apply animation to this element */	
  -moz-animation: example1 15s linear infinite;
  -webkit-animation: example1 15s linear infinite;
  animation: example1 15s linear infinite;
 }
+
+/* .example1 {
+        top : 85%;
+        height: 15%;
+        overflow: hidden;
+        position: fixed;
+        width: 100%;
+        z-index: 1;
+        white-space: nowrap;
+        overflow-x: hidden
+    }
+    
+    .example1 .mover {
+        //font-size: 3em;
+        color: white;
+        position: absolute;
+        height: 100%;  
+        margin: 0;
+        text-align: left;
+        //display: inline-block;
+        width: max-content;
+        // display: flex;
+        // justify-content: center;
+        // flex-direction: row;
+        // text-align: center;
+        //padding: 5px;
+        transform:translateX(100%);
+        //animation: example1 40s linear infinite;
+        
+        .imgRunning
+        {
+            //left: -50px;
+            position: initial;
+            width: 40px;
+            height: 40px; 
+            max-width: 50px !important;
+            padding-left: 5px;
+            padding-right: 5px;
+            float: left;
+            margin: auto;
+            
+        }
+        .textRunning{
+            color: white;
+            font-size: 1.5em;
+            margin-top: auto;
+            margin-bottom: auto;
+            //padding: 5px;
+            line-height: 50px;
+            float: left;
+            display: flex;
+            justify-content: center;
+            flex-direction: row;
+            text-align: center;
+            
+        }
+    }
+    .imageTextWrapper{
+        text-align: center;
+        justify-content: center;
+        float: left;
+        flex-direction: row;
+        display: flex;
+        height: 100% ;
+        
+    } */
 /* Move it (define the animation) */
 @-moz-keyframes example1 {
  0%   { -moz-transform: translateX(100%); }
@@ -109,8 +199,21 @@ html,body {
 </div>	
 <div class="ticker">
     <div class="example1">
-            <h3><?= $ticker ?></h3>
-    </div>
+			
+            <div class="mover">
+				<img class = "imgRunning" src="<?= base_url('resources/uploads/tickers/20190329_112710_img_358304.png')?>">
+				<div class = "textRunning"><?= $ticker ?></div>
+			</div>
+
+	</div>
+	<!-- <div class="example1">
+		<div class = "mover">
+			<div id='wraper' class ="imageTextWrapper" >
+					<img class ="imgRunning" src = "assets/logo/murni.png" >
+					<div class = "textRunning" >aaaa </div>
+			</div>
+		</div>
+	</div> -->
 </div>
 
 <script src="<?= base_url('assets/bootstrapdashboard/vendor/jquery/jquery.min.js');?>"></script>

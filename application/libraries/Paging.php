@@ -23,6 +23,7 @@ class Paging {
         $data["m_event"] = "m_events";
         $data["m_multimedia"] = "m_multimedias";
         $data["m_ticker"] = "m_tickers";
+        $data["m_tickersetting"] = "m_tickersettings";
         return $data;
     }
 
@@ -57,12 +58,14 @@ class Paging {
         $mastermenu = $CI->M_forms->get_data_by_classname("Master");
         $multimediamenu = $CI->M_forms->get_data_by_classname("Multimedia");
         $transactionmenu = $CI->M_forms->get_data_by_classname("Transaction");
+        $settingmenu = $CI->M_forms->get_data_by_classname("Setting");
 
         $data['companyname'] = $companyname;
         $data['setupmenu'] = $setupmenu;
         $data['mastermenu'] = $mastermenu;
         $data['multimediamenu'] = $multimediamenu;
         $data['transactionmenu'] = $transactionmenu;
+        $data['settingmenu'] = $settingmenu;
 
         //print_r($data['mastermenu']);
         // foreach($mastermenu as $menu){

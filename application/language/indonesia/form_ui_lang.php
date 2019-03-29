@@ -421,4 +421,9 @@ $lang['ui_assigntype'] = "Putar Pada";
 $lang['ui_manyplayers'] = "Beberapa Player";
 $lang['ui_master_ticker'] = "Master Ticker";
 $lang['ui_ticker'] = "Ticker";
+$lang['ui_master_tickersetting'] = "Master Pengaturan Ticker";
+$lang['ui_tickersetting'] = "Pengaturan Ticker";
+$lang['ui_backgroundcolor'] = "Wanrna Latar";
+$lang['ui_fontcolor'] = "Warna Tulisan";
+$lang['ui_height'] = "Tinggi";
 
