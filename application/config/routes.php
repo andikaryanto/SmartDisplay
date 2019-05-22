@@ -132,6 +132,7 @@ $route['mtickersetting/addsave'] = 'm_tickersetting/addsave';
 $route['mtickersetting/edit/(:num)'] = 'm_tickersetting/edit/$1';
 $route['mtickersetting/editsave'] = 'm_tickersetting/editsave';
 $route['mtickersetting/delete'] = 'm_tickersetting/delete';
+$route['mtickersetting/activate/(:num)'] = 'm_tickersetting/activate/$1';
 
 
 $route['report'] = 'reports';
@@ -148,8 +149,11 @@ $route['player/getMultimediaByPlayer/(:any)'] = 'player/Players/getMultimediaByP
 
 //API
 $route['api/player/multimedia'] = 'api/Player/multimedia';
+$route['api/player/updatemultimedia'] = 'api/Player/updateMultimedia';
 $route['api/player/ticker'] = 'api/Player/ticker';
+$route['api/player/updateticker'] = 'api/Player/updateTicker';
 $route['api/player/register'] = 'api/Player/register';
+$route['api/player/tickersetting'] = 'api/Player/tickersetting';
 
 
 $route['api/mdisaster']['GET'] = 'api_mdisaster/get_disaster';

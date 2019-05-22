@@ -98,6 +98,27 @@ if(ENVIRONMENT === 'production'){
 	);
 }
 else if(ENVIRONMENT === 'development'){
+	// $db['smartdisplay'] = array(
+	// 	'dsn'	=> '',
+	// 	'hostname' => 'SysdevMurni',
+	// 	'username' => 'sysdev',
+	// 	'password' => 'pass@word',
+	// 	'database' => 'smartdisplay',
+	// 	'dbdriver' => 'mysqli',
+	// 	'dbprefix' => '',
+	// 	'pconnect' => FALSE,
+	// 	'db_debug' => FALSE,//(ENVIRONMENT !== 'production'),
+	// 	'cache_on' => FALSE,
+	// 	'cachedir' => '',
+	// 	'char_set' => 'utf8',
+	// 	'dbcollat' => 'utf8_general_ci',
+	// 	//'dbcollat' => 'latin1_swedish_ci',
+	// 	'swap_pre' => '',
+	// 	'encrypt' => FALSE,
+	// 	'compress' => FALSE,
+	// 	'stricton' => FALSE,
+	// 	'failover' => array(),
+	// 	'save_queries' => TRUE
 	$db['smartdisplay'] = array(
 		'dsn'	=> '',
 		'hostname' => 'localhost',

@@ -426,4 +426,6 @@ $lang['ui_tickersetting'] = "Pengaturan Ticker";
 $lang['ui_backgroundcolor'] = "Wanrna Latar";
 $lang['ui_fontcolor'] = "Warna Tulisan";
 $lang['ui_height'] = "Tinggi";
+$lang['ui_showtime'] = "Waktu Tampil";
+$lang['ui_speed'] = "Kecepatan";
 

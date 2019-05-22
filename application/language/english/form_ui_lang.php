@@ -407,6 +407,8 @@ $lang['ui_tickersetting'] = "Ticker Setting";
 $lang['ui_backgroundcolor'] = "Background Color";
 $lang['ui_fontcolor'] = "Font Color";
 $lang['ui_height'] = "Height";
+$lang['ui_showtime'] = "Show Time";
+$lang['ui_speed'] = "Speed";
 
 
 

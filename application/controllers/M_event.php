@@ -134,6 +134,7 @@ class M_event extends CI_Controller
         {
             $model->save();
             $this->updateMplayermultimedia($model);
+            $this->updateMplayerticker($model);
             $successmsg = $this->paging->get_success_message();
             $this->session->set_flashdata('success_msg', $successmsg);
             redirect('mevent');
@@ -167,6 +168,18 @@ class M_event extends CI_Controller
                 foreach($detail->get_list_M_Playermultimedia() as $playermulmed){
                     $playermulmed->IsUpdated = 1;
                     $playermulmed->save();
+                }
+            }
+        }
+
+    }
+
+    private function updateMplayerticker($model){
+        foreach($model->get_list_M_Ticker() as $ticker){
+            foreach($ticker->get_list_M_Tickerdetail() as $detail){
+                foreach($detail->get_list_M_Playerticker() as $playeticker){
+                    $playeticker->IsUpdated = 1;
+                    $playeticker->save();
                 }
             }
         }

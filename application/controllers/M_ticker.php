@@ -238,7 +238,7 @@ class M_ticker extends CI_Controller {
             );
 
             $detail = $this->M_tickerdetails->get(null, null, $params);
-            // echo json_encode($detail);
+            // echo json_encode($tickerId);
             if($detail){
                 $newdetailid = $detail->Id;
             } else {
@@ -256,6 +256,7 @@ class M_ticker extends CI_Controller {
                         $playerticker = $this->M_playertickers->new_object();
                         $playerticker->M_Tickerdetail_Id = $newdetailid;
                         $playerticker->M_Player_Id = $playerid;
+                        $playerticker->IsDeleted = 0;
                         $playerticker->IsUpdated = 1;
                         $playerticker->save();
                     } else {
@@ -267,6 +268,7 @@ class M_ticker extends CI_Controller {
                                     $playerticker = $this->M_playertickers->new_object();
                                     $playerticker->M_Tickerdetail_Id = $newdetailid;
                                     $playerticker->M_Player_Id = $player->Id;
+                                    $playerticker->IsDeleted = 0;
                                     $playerticker->IsUpdated = 1;
                                     $playerticker->save();
                                 }
@@ -282,7 +284,7 @@ class M_ticker extends CI_Controller {
                 );
 
                 $players = $this->M_playertickers->get_list(null, null, $params);
-                echo json_encode($players);
+                // echo json_encode($players);
                 foreach($players as $player){
                     $player->IsUpdated = 1;
                     $player->save();

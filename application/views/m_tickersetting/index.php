@@ -76,12 +76,25 @@
 													<!-- <span>60%</span> -->
 												   </div>
 												</div>
-											</td>
+                      </td>
+                      
                       <td><?= $value->Height?>%</td>
                       <td><?= $value->IsActive?></td>
                       <td><?= $value->Created?></td>
+
+                      <?php 
+                      if($value->IsActive == 1 ) {
+                        $btnclass = "";
+                      
+                      } else {
+                        $btnclass = "text-danger";
+                      }
+                      ?>
+
                       <td class = "td-actions text-right">
                         <a href="#" rel="tooltip" title="<?=  lang('ui_delete')?>" class="btn-just-icon link-action delete"><i class="fa fa-trash"></i></a>
+                        <a href="#" class="<?= $btnclass ?> btn-just-icon link-action activate"><i class="fa fa-plug"></i></a>
+                        
                       </td>
                     </tr>
                 <?php
@@ -170,6 +183,14 @@
             });
           }
         });
+     });
+
+     // Delete a record
+     table.on( 'click', '.activate', function (e) {
+        $tr = $(this).closest('tr');
+        var data = table.row($tr).data();
+        var id = $tr.attr('id');
+        window.location = "<?= base_url('mtickersetting/activate/');?>" + id;
      });
   }
 

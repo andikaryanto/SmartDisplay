@@ -23,4 +23,6 @@ $lang['info_back_to_home'] = 'Back to Home';
 $lang['info_beginning_balance_not_balance'] = 'Beginning balance is not balance';
 $lang['info_change_assign_type'] = 'If Assign type is changed, all players will be deleted';
 $lang['info_in_percent'] = 'In percent (%)';
+$lang['info_showtime'] = 'Hours : Minutes : Seconds';
+$lang['info_in_second'] = 'In Second';
 //$lang['msg_orderuomconvertion'] = "Please order Unit Convertion from biggest to smallest unit. for example : Box to Pack (order number = 1), Pack to Pcs (order number = 2) and go on";

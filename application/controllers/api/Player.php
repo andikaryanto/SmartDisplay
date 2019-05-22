@@ -7,26 +7,60 @@ class Player extends yidas\rest\Controller
   {    
     $playername = $this->input->get('playername');
 
-    $return = $this->getMultimedia($playername);
-
-    $this->response->json($return, 200);
+    if($playername){
+      $return = $this->getMultimedia($playername);
+  
+      $this->response->json($return, 200);
+    }
   }
 
   public function ticker()
   { 
     $playername = $this->input->get('playername');
 
-    $return = $this->getTicker($playername);
+    if($playername){
 
-    $this->response->json($return, 200);
+      $return = $this->getTicker($playername);
+      $this->response->json($return, 200);
+    }
+  }
+
+  public function updateMultimedia(){
+    $playermultimediaid = $this->input->get('playermultimediaid');
+
+    
+    if($playermultimediaid){
+      if($this->updateMultimediaByPlayerMultimedia($playermultimediaid)){
+        $return = array(
+          'status' => "success"
+        );
+  
+        $this->response->json($return, 200);
+      }
+    }
+  }
+
+  public function updateTicker(){
+    $playertickerid = $this->input->get('playertickerid');
+
+    if($playertickerid){
+      if($this->updateTickerByPlayerTicker($playertickerid)){
+        $return = array(
+          'status' => "success"
+        );
+  
+        $this->response->json($return, 200);
+      }
+    }
   }
 
   public function register(){
     $playername = $this->input->get('playername'); 
-    $isbrowser = $this->input->get('isbrowser');
+    $deviceid = $this->input->get('deviceid'); 
     $ipaddress = $this->input->ip_address();
 
-    if($playername){
+    
+    if($playername && $deviceid){
       $params = array(
         'where' => array(
           'Name' => $playername
@@ -38,12 +72,7 @@ class Player extends yidas\rest\Controller
         if($player->IsRegistered == 0){
           $player->IpAddress = $ipaddress;
           $player->IsRegistered = 1;
-          if($isbrowser == "true"){
-            $player->DeviceId = "Browser";
-            $this->getMultimedia($playername);
-          } else {
-            $player->DeviceId = "Mobile";
-          }
+          $player->DeviceId = $deviceid;
           $player->save();
           
           $return = array(
@@ -56,7 +85,7 @@ class Player extends yidas\rest\Controller
         } else {
 
           $return = array(
-            'data' => null,
+            'data' => $player,
             'status' => playerstatusarr_enum('registered')
           );
 
@@ -65,7 +94,7 @@ class Player extends yidas\rest\Controller
       } else {
 
         $return = array(
-          'data' => null,
+          'data' => $player,
           'status' => playerstatusarr_enum('notlisted')
         );
 
@@ -75,6 +104,20 @@ class Player extends yidas\rest\Controller
     }
 
   }
+
+  public function tickersetting(){
+    $params = array(
+      'where' => array(
+        'IsActive' => 1
+      )
+    );
+
+    $tickersetting = $this->M_tickersettings->get(null, null, $params);
+    $this->response->json($tickersetting, 200);
+
+   }
+
+
 
 
   // function
@@ -97,6 +140,7 @@ class Player extends yidas\rest\Controller
       if($results){
         foreach($results as $result){
           $tick['PlayerTickerId'] = $result->PlayerTickerId;
+          $tick['TickerId'] = $result->TickerId;
           $tick['TickerName'] = $result->TickerName;
           $tick['TickerContent'] = $result->TickerContent;
           $tick['IsDeleted'] = $result->IsDeleted;
@@ -117,7 +161,7 @@ class Player extends yidas\rest\Controller
         $return['result'] = $player;
         $return['result']['ticker'] = $ticker;
         $return['status'] = playerstatusarr_enum('registered');
-        $this->saveTplayerticker($results);
+        // $this->saveTplayerticker($results);
 
         return $return;
         
@@ -158,6 +202,8 @@ class Player extends yidas\rest\Controller
           $mulmed['MultimediaId'] = $result->MultimediaId;
           $mulmed['MultimediaName'] = $result->MultimediaName;
           $mulmed['Url'] = $result->Url;
+          $mulmed['ShowTime'] = $result->ShowTime;
+          $mulmed['MultimediaType'] = $result->MultimediaType;
           $mulmed['IsDeleted'] = $result->IsDeleted;
           $mulmed['ActiveDate'] = $result->ActiveDate;
           $mulmed['InactiveDate'] = $result->InactiveDate;
@@ -177,7 +223,7 @@ class Player extends yidas\rest\Controller
         $return['result']['multimedia'] = $multimedia;
         $return['status'] = playerstatusarr_enum('registered');
 
-        $this->saveTplayermultimedia($results);
+        // $this->saveTplayermultimedia($results);
 
         return $return;
         
@@ -327,6 +373,36 @@ class Player extends yidas\rest\Controller
         $mplayerticker->save();
       }
     }
+  }
+
+  private function updateMultimediaByPlayerMultimedia($playermultimediaid){
+    $params = array(
+      'where' => array(
+        'Id' => $playermultimediaid
+      )
+    );
+    $mplayermulmed = $this->M_playermultimedias->get(null, null, $params);
+    if($mplayermulmed){
+      $mplayermulmed->IsUpdated = 0;
+      $mplayermulmed->save();
+      return true;
+    }
+    return false;
+  }
+
+  private function updateTickerByPlayerTicker($playertickerid){
+    $params = array(
+      'where' => array(
+        'Id' => $playertickerid
+      )
+    );
+    $mplayerticker = $this->M_playertickers->get(null, null, $params);
+    if($mplayerticker){
+      $mplayerticker->IsUpdated = 0;
+      $mplayerticker->save();
+      return true;
+    }
+    return false;
   }
 
   private function downloadMultimedia($url){

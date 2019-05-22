@@ -48,6 +48,7 @@ class M_multimedia extends CI_Controller {
         $eventid = $this->input->post('eventid');
         $type = $this->input->post('type');
         $assigntype = $this->input->post('assigntype');
+        $showtime = $this->input->post('showtime');
 
         
         
@@ -57,6 +58,7 @@ class M_multimedia extends CI_Controller {
         $model->Type = $type;
         $model->AssignType = $assigntype;
         $model->IsDeleted = 0;
+        $model->ShowTime = $showtime;
         $model->CreatedBy = $_SESSION[get_variable().'userdata']['Username'];
 
         $validate = $this->M_multimedias->validate($model);
@@ -101,6 +103,7 @@ class M_multimedia extends CI_Controller {
         $eventid = $this->input->post('eventid');
         $type = $this->input->post('type');
         $assigntype = $this->input->post('assigntype');
+        $showtime = $this->input->post('showtime');
 
         $model = $this->M_multimedias->get($id);
         $oldmodel = clone $model;
@@ -109,6 +112,7 @@ class M_multimedia extends CI_Controller {
         $model->Name = $name;
         $model->Type = $type;
         $model->AssignType = $assigntype;
+        $model->ShowTime = $showtime;
         
         $model->ModifiedBy = $_SESSION[get_variable().'userdata']['Username'];
         //echo json_encode($model);

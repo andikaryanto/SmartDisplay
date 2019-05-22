@@ -39,6 +39,17 @@
                 </div>
               </div>
               <div class = "row">
+                <div class = "col-sm-12">
+                  <div class="form-group">
+                    <div class = "required">
+                      <label><?= lang('ui_speed')?></label>
+                      <input id="speed" type="number" placeholder="<?= lang('ui_speed') ?>" class="form-control" name = "Speed" value="<?= $model->Speed?>" required>
+                      <span class = "text-primary text-right"><?= lang('info_in_second')?></span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class = "row">
                 <div class = "col-sm-6">
                   <div class="form-group">
                     <div class = "required">

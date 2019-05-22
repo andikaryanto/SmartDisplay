@@ -21,4 +21,6 @@ $lang['info_back_to_home'] = 'Kembali ke Beranda';
 $lang['info_beginning_balance_not_balance'] = 'Saldo awal tidak seimbang';
 $lang['info_change_assign_type'] = 'Jika "Putar Pada" diganti, semua player akan dihapus';
 $lang['info_in_percent'] = 'Dalam persen (%)';
+$lang['info_showtime'] = 'Jam : Menit : Detik';
+$lang['info_in_second'] = 'Dalam Detik';
 //$lang['msg_orderuomconvertion'] = "Urutkan Perubahan ukuran dari paling BESAR ke KECIL. contoh : Box ke Pack (nomor urut = 1), Pack ke Pcs (nomor urut = 2) dan seterusnya";
