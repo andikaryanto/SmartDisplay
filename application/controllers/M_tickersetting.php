@@ -125,7 +125,7 @@ class M_tickersetting extends CI_Controller {
         {
             if($_FILES['file']['name'] != ""){
                 $url = $this->upload($_FILES['file'], $id, 'tickers', true);
-                $model->Url = $url;
+                $model->ImgUrl = $url;
             }
             $model->save();
             $successmsg = $this->paging->get_success_message();

@@ -29,16 +29,16 @@
           <div class="card-body">                
             <form method = "post" action = "<?= base_url('muser/editsave');?>">
               <input hidden id = "userid" type="text" class="form-control" name = "userid" value="<?= $model->Id?>">
-              <input hidden id = "groupid" type="text" class="form-control" name = "groupid" value="<?= $model->M_Groupuser_Id?>">
+              <input hidden id = "groupid" type="text" class="form-control" name = "groupid" value="<?= $model->M_Groupplayer_Id?>">
               <div class="form-group bmd-form-group">
                 <label class = ""><?= lang('ui_name')?></label>
-                <input id="named" type="text"  class="form-control " name = "named" value="<?= $model->Username?>" required>
+                <input id="named" type="text"  class="form-control " name = "named" value="<?= $model->Name?>" required>
               </div>
               <div class="form-group">
                 <label><?= lang('ui_group_user')?></label>
                 <div class="input-group has-success">
                   
-                  <input id = "groupname" type="text" class="form-control custom-readonly"  value="<?= $model->get_M_Groupuser()->GroupName?>" readonly>
+                  <input id = "groupname" type="text" class="form-control custom-readonly"  value="<?= $model->get_M_Groupplayer()->GroupName?>" readonly>
                   
                   <div class="input-group-append">
                     <button id="btnGroupModal" data-toggle="modal" type="button" class="btn btn-primary btn-lookup" data-target="#modalGroupUser"><i class="fa fa-search"></i></button>

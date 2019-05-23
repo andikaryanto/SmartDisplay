@@ -27,7 +27,7 @@
             </div>
           </div>
           <div class="card-body">                
-            <form method = "post" action = "<?= base_url('mtickersetting/editsave');?>">
+            <form method = "post" action = "<?= base_url('mtickersetting/editsave');?>" enctype = "multipart/form-data">
             
             <input hidden name ="idtickersetting" id="idtickersetting" value="<?= $model->Id?>">
             <div class = "row">

@@ -100,7 +100,7 @@ if(ENVIRONMENT === 'production'){
 else if(ENVIRONMENT === 'development'){
 	// $db['smartdisplay'] = array(
 	// 	'dsn'	=> '',
-	// 	'hostname' => 'SysdevMurni',
+	// 	'hostname' => '192.168.1.15',
 	// 	'username' => 'sysdev',
 	// 	'password' => 'pass@word',
 	// 	'database' => 'smartdisplay',

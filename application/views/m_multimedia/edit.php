@@ -76,11 +76,10 @@
                 </div>
               </div>
               <div class="form-group">
-                <div class = "required">
                   <label><?= lang('ui_showtime')?></label>
-                  <input id="showtime" type="text" placeholder="<?= lang('ui_showtime') ?>" class="form-control showtime" name = "showtime" value="<?= $model->ShowTime?>" required>
+                  <input id="showtime" type="text" placeholder="<?= lang('ui_showtime') ?>" class="form-control showtime" name = "showtime" value="<?= $model->ShowTime?>">
                   <small class="form-text text-primary"><?= lang('info_showtime')?></small>
-                </div>
+                
               </div>
               <div class="row" >
                 <div class="col-md-6">
