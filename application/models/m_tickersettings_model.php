@@ -1,6 +1,6 @@
 <?php  
 if ( ! defined('BASEPATH')) exit('No direct script access allowed');
-class m_tickersettings_model extends MY_Model {
+class M_tickersettings_model extends MY_Model {
 
     public function __construct(){
         parent::__construct();

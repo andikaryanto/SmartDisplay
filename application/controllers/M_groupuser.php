@@ -20,7 +20,7 @@ class M_groupuser extends CI_Controller
             );
             $datapages = $this->M_groupusers->get_list(null, null, $params);
             $data['model'] = $datapages;
-            load_view('m_groupuser/index', $data);
+            load_view('m_groupuser/index', $data, lang("ui_groupuser"));
         }
         else
         {   
@@ -36,7 +36,7 @@ class M_groupuser extends CI_Controller
         {
             $model = $this->M_groupusers->new_object();
             $data =  $this->paging->set_data_page_add($model);
-            load_view('m_groupuser/add', $data);  
+            load_view('m_groupuser/add', $data, lang("ui_groupuser"));  
         }
         else
         {
@@ -63,7 +63,7 @@ class M_groupuser extends CI_Controller
         {
             $this->session->set_flashdata('add_warning_msg',$validate);
             $data =  $this->paging->set_data_page_add($model);
-            load_view('m_groupuser/add', $data);   
+            load_view('m_groupuser/add', $data, lang("ui_groupuser"));   
         }
         else{
     
@@ -81,7 +81,7 @@ class M_groupuser extends CI_Controller
         {
             $model = $this->M_groupusers->get($id);
             $data =  $this->paging->set_data_page_edit($model);
-            load_view('m_groupuser/edit', $data);  
+            load_view('m_groupuser/edit', $data, lang("ui_groupuser"));  
         }
         else
         {
@@ -108,7 +108,7 @@ class M_groupuser extends CI_Controller
         {
             $this->session->set_flashdata('edit_warning_msg',$validate);
             $data =  $this->paging->set_data_page_edit($model);
-            load_view('m_groupuser/edit', $data);   
+            load_view('m_groupuser/edit', $data, lang("ui_groupuser"));   
         }
         else
         {
@@ -129,7 +129,7 @@ class M_groupuser extends CI_Controller
 
             //$data =  $this->paging->set_data_page_index($modeldetail, null, null, null, $modelheader);
             $data['model'] = $modelheader;
-            load_view('m_groupuser/roles', $data); 
+            load_view('m_groupuser/roles', $data, lang("ui_groupuser")); 
         }
         else
         {
@@ -147,7 +147,7 @@ class M_groupuser extends CI_Controller
 
             //$data =  $this->paging->set_data_page_index($modeldetail, null, null, null, $modelheader);
             $data['model'] = $modelheader;
-            load_view('m_groupuser/reportRoles', $data); 
+            load_view('m_groupuser/reportRoles', $data, lang("ui_groupuser")); 
         }
         else
         {
@@ -269,6 +269,56 @@ class M_groupuser extends CI_Controller
         {   
             $this->load->view('forbidden/forbidden');
         }   
+    }
+
+    public function getAllData(){
+
+        $form = $this->paging->get_form_name_id();
+        if($this->M_groupusers->is_permitted($_SESSION[get_variable().'userdata']['M_Groupuser_Id'],$form['m_groupuser'],'Read'))
+        {
+            
+            $datatable = $this->datatables->addEntity('M_groupusers');
+            $datatable
+            ->addDtRowId('Id')
+            ->addDtRowClass('rowdetail')
+            ->addColumn(
+                'GroupName', 
+                function($row){
+                    $url = base_url("mgroupuser/edit/{$row->Id}");
+                    return "<a href = '{$url}' class = 'text-muted' >{$row->GroupName}</a>";
+                }
+            )->addColumn(
+                'Description', 
+                function($row){
+                    return $row->Description;
+                }
+            )->addColumn(
+                'Created', 
+                function($row){
+                    return $row->Created;
+                },
+                false
+            )->addColumn(
+                'Action', 
+                function($row){
+                    return 
+                        "<a href='#' rel='tooltip' title='lang('ui_role')' class='btn-just-icon link-action role'><i class='fa fa-user'></i></a>
+                        <a href='#' rel='tooltip' title='lang('ui_reportrole')' class='btn-just-icon link-action reportrole'><i class='fa fa-list'></i></a>
+                        <a href='#' rel='tooltip' title='lang('ui_delete')' class='btn-just-icon link-action delete'><i class='fa fa-trash'></i></a>";
+                        
+  
+                },
+                false,
+                false
+            );
+
+            echo json_encode($datatable->populate());
+        }
+        else
+        {
+            
+            $this->load->view('error/forbidden');
+        } 
     }
     
 }

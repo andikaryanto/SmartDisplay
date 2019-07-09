@@ -14,9 +14,9 @@ class M_groupplayer extends CI_Controller {
         $form = $this->paging->get_form_name_id();
         if(is_permitted($_SESSION[get_variable().'userdata']['M_Groupuser_Id'],$form['m_groupplayer'],'Read'))
         {
-            $datapages = $this->M_groupplayers->get_list();
-            $data['model'] = $datapages;
-            load_view('m_groupplayer/index', $data);
+            // $datapages = $this->M_groupplayers->get_list();
+            // $data['model'] = $datapages;
+            load_view('m_groupplayer/index', array(), lang("ui_groupplayer"));
         }
         else
         {   
@@ -32,7 +32,7 @@ class M_groupplayer extends CI_Controller {
         {
             $model = $this->M_groupplayers->new_object();
             $data =  $this->paging->set_data_page_add($model);
-            load_view('m_groupplayer/add', $data);  
+            load_view('m_groupplayer/add', $data, lang("ui_groupplayer"));  
         }
         else
         {
@@ -57,7 +57,7 @@ class M_groupplayer extends CI_Controller {
         {
             $this->session->set_flashdata('add_warning_msg',$validate);
             $data =  $this->paging->set_data_page_add($model);
-            load_view('m_groupplayer/add', $data);   
+            load_view('m_groupplayer/add', $data, lang("ui_groupplayer"));   
         }
         else{
     
@@ -76,7 +76,7 @@ class M_groupplayer extends CI_Controller {
         {
             $model = $this->M_groupplayers->get($id);
             $data =  $this->paging->set_data_page_edit($model);
-            load_view('m_groupplayer/edit', $data);  
+            load_view('m_groupplayer/edit', $data, lang("ui_groupplayer"));  
         }
         else
         {
@@ -103,7 +103,7 @@ class M_groupplayer extends CI_Controller {
         {
             $this->session->set_flashdata('edit_warning_msg',$validate);
             $data =  $this->paging->set_data_page_edit($model);
-            load_view('m_groupplayer/edit', $data);   
+            load_view('m_groupplayer/edit', $data, lang("ui_groupplayer"));   
         }
         else
         {
@@ -135,6 +135,55 @@ class M_groupplayer extends CI_Controller {
             echo json_encode(delete_status("", FALSE, TRUE));
         }
 
+    }
+
+    public function getAllData(){
+
+        $form = $this->paging->get_form_name_id();
+        if($this->M_groupusers->is_permitted($_SESSION[get_variable().'userdata']['M_Groupuser_Id'],$form['m_groupuser'],'Read'))
+        {
+            
+            $datatable = $this->datatables->addEntity('M_groupplayers');
+            $datatable
+            ->addDtRowId('Id')
+            ->addDtRowClass('rowdetail')
+            ->addColumn(
+                'GroupName', 
+                function($row){
+                    $url = base_url("mgroupplayer/edit/{$row->Id}");
+                    return "<a href = '{$url}' class = 'text-muted' >{$row->GroupName}</a>";
+                }
+            )->addColumn(
+                'Description', 
+                function($row){
+                    return $row->Description;
+                }
+            )->addColumn(
+                'Created', 
+                function($row){
+                    return $row->Created;
+                },
+                false
+            )->addColumn(
+                'Action', 
+                function($row){
+                    $langrole = lang('Form.role');
+                    return 
+                        "<a href = '#' class = 'btn-just-icon link-action delete'><i class='fa fa-trash' rel = 'tooltip' title='lang('Form.delete')' ></i></a>";
+                        
+  
+                },
+                false,
+                false
+            );
+
+            echo json_encode($datatable->populate());
+        }
+        else
+        {
+            
+            $this->load->view('error/forbidden');
+        } 
     }
 
 }

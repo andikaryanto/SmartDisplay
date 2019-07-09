@@ -15,9 +15,9 @@
     </header>
     <div class="row">
       
-      <div class = "col-lg-12 text-danger text-right">
+      <!-- <div class = "col-lg-12 text-danger text-right">
         <?= lang('ui_slotleft')." : ". $this->M_players->slotLeft();?>
-      </div>
+      </div> -->
       <div class="col-lg-12">
         <div class="card">
           <div class="card-header">
@@ -49,40 +49,6 @@
                       <th class="disabled-sorting text-right"><?=  lang('ui_actions')?></th>
                     </tr>
                   </tfoot>
-                  <tbody>
-                  <?php
-                  //print_r($modeldetail);
-                    foreach ($model as $value)
-                    {
-                  ?>
-                      <tr role = "row" id = <?= $value->Id?>>
-                        <td><a href= "<?= base_url('mplayer/edit/'.$value->Id);?>" class = "text-muted"><?= $value->Name?></a></td>
-                        <td><?= $value->get_M_Groupplayer()->GroupName?></td>
-                        <?php 
-                        if($value->IsActive == 1 ) {
-                          $btnclass = "";
-                        ?>
-                        <td><a><i class='fa fa-check'></i></a></td>
-                        <?php
-                        } else {
-                          $btnclass = "text-danger";
-                        ?>
-                          <td><a><i class='fa fa-close'></i></a></td>
-                        <?php
-                        }  
-                        ?>
-                        
-                        <td class = "td-actions text-right">
-                          <!-- <a href="#" rel="tooltip" title="<?=  lang('ui_role')?>" class="btn-just-icon link-action role"><i class="fa fa-user"></i></a> -->
-                          
-                          <a href="#" class="<?= $btnclass ?> btn-just-icon link-action activate"><i class="fa fa-plug"></i></a>
-                        </td>
-                      </tr>
-                  <?php
-                    }
-                  ?>
-                    
-                  </tbody>
                 </table>
               </div>
             </div>
@@ -111,6 +77,10 @@
         {
           targets: 'disabled-sorting', 
           orderable: false
+        },
+        {
+           "className": "td-actions text-right", 
+           "targets": [ 3 ] 
         }
       ],
       
@@ -120,6 +90,13 @@
         { responsivePriority: 4 },
         { responsivePriority: 2 }
       ],
+      "processing": true,
+      "serverSide": true,
+      ajax:{
+        url : "<?= base_url('M_player/getAllData')?>",
+        dataSrc : 'data'
+      },
+      stateSave: true
     }); 
 
      // Edit record

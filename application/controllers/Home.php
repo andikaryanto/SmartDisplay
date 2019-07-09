@@ -20,7 +20,7 @@ class Home extends CI_Controller
             redirect('login');
         }
         else{
-            $this->loadview('home/home');
+            load_view('home/home', null, "Home");
         }
     }
 

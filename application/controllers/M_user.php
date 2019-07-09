@@ -25,7 +25,7 @@ class M_user extends CI_Controller
 
             $datapages = $this->M_users->get_list(null, null, $params);
             $data['model'] = $datapages;
-            load_view('m_user/index', $data);
+            load_view('m_user/index', $data, lang("ui_user"));
         }
        else
         {   
@@ -48,7 +48,7 @@ class M_user extends CI_Controller
                 'modal_group' => $modal_group
             );
             $data =  $this->paging->set_data_page_add($model, null, $data_modal);
-            load_view('m_user/add', $data);   
+            load_view('m_user/add', $data, lang("ui_user"));   
         }
         else
         {
@@ -86,7 +86,7 @@ class M_user extends CI_Controller
                 'modal_group' => $modal_group
             );
             $data =  $this->paging->set_data_page_add($model, null, $data_modal);
-            load_view('m_user/add', $data);   
+            load_view('m_user/add', $data, lang("ui_user"));   
         }
         else{
             $new_data = $model->save_with_detail();
@@ -105,7 +105,7 @@ class M_user extends CI_Controller
             $model = $this->M_users->get($id);
             $data =  $this->paging->set_data_page_edit($model);
             //echo json_encode($edit);
-            load_view('m_user/edit', $data);   
+            load_view('m_user/edit', $data, lang("ui_user"));   
         }
         else{
             
@@ -135,7 +135,7 @@ class M_user extends CI_Controller
         {
             $this->session->set_flashdata('edit_warning_msg',$validate);
             $data =  $this->paging->set_data_page_edit($model);
-            load_view('m_user/edit', $data);   
+            load_view('m_user/edit', $data, lang("ui_user"));   
         }
         else
         {
@@ -179,7 +179,7 @@ class M_user extends CI_Controller
         $user = $this->M_users->get($_SESSION[get_variable().'userdata']['Id']);
         $profile = $user->get_list_M_Userprofile()[0];
         $data['model'] = $profile;
-        load_view('m_user/profile', $data);
+        load_view('m_user/profile', $data, lang("ui_user"));
     }
 
     public function activate($id)
@@ -207,7 +207,7 @@ class M_user extends CI_Controller
             'confirmpassword' => ""
         );
         $data['model'] = $model;
-        load_view('m_user/changePassword', $data);    
+        load_view('m_user/changePassword', $data, lang("ui_user"));    
     }
 
     public function saveNewPassword(){
@@ -226,7 +226,7 @@ class M_user extends CI_Controller
         if($validate){
             $this->session->set_flashdata('warning_msg',$validate);
             $data =  $this->paging->set_data_page_add($model);
-            load_view('m_user/changePassword', $data);    
+            load_view('m_user/changePassword', $data, lang("ui_user"));    
         }
         else{
             $this->M_users->saveNewPassword($_SESSION[get_variable().'userdata']['Username'], $oldpassword, $newpassword);

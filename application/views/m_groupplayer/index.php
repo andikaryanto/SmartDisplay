@@ -48,23 +48,7 @@
                     <th class="disabled-sorting text-right"><?=  lang('ui_actions')?></th>
                   </tr>
                 </tfoot>
-                <tbody>
-                <?php
-                  foreach ($model as $value)
-                  {
-                ?>
-                    <tr role = "row" id = <?= $value->Id?>>
-                      <td><a href= "<?= base_url('mgroupplayer/edit/'.$value->Id);?>" class = "text-muted"><?= $value->GroupName?></a></td>
-                      <td><?= $value->Description?></td>
-                      <td><?= $value->Created?></td>
-                      <td class = "td-actions text-right">
-                        <a href="#" rel="tooltip" title="<?=  lang('ui_delete')?>" class="btn-just-icon link-action delete"><i class="fa fa-trash"></i></a>
-                      </td>
-                    </tr>
-                <?php
-                  }
-                ?>
-                </tbody>
+                
               </table>
             </div>
           </div>
@@ -97,6 +81,10 @@
         {
           targets: 'disabled-sorting', 
           orderable: false
+        },
+        {
+           "className": "td-actions text-right", 
+           "targets": [ 3 ] 
         }
       ],
       columns: [
@@ -105,6 +93,13 @@
         { responsivePriority: 4 },
         { responsivePriority: 2 }
       ],
+      "processing": true,
+      "serverSide": true,
+      ajax:{
+        url : "<?= base_url('M_groupplayer/getAllData')?>",
+        dataSrc : 'data'
+      },
+      stateSave: true
     }); 
 
      // Delete a record

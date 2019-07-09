@@ -15,9 +15,7 @@ class M_event extends CI_Controller
         $form = $this->paging->get_form_name_id();
         if(is_permitted($_SESSION[get_variable().'userdata']['M_Groupuser_Id'],$form['m_event'],'Read'))
         {
-            $model = $this->M_events->get_list();
-            $data['model'] = $model;
-            load_view('m_event/index', $data);
+            load_view('m_event/index', array(), lang('ui_even'));
         }
         else
         {   
@@ -37,7 +35,7 @@ class M_event extends CI_Controller
             $model->TimeStart = "00:00";
             $model->TimeEnd = "23:59";
             $data =  $this->paging->set_data_page_add($model);
-            load_view('m_event/add', $data);  
+            load_view('m_event/add', $data, lang('ui_even'));  
         }
         else
         {
@@ -72,7 +70,7 @@ class M_event extends CI_Controller
         {
             $this->session->set_flashdata('add_warning_msg',$validate);
             $data =  $this->paging->set_data_page_add($model);
-            load_view('m_event/add', $data);   
+            load_view('m_event/add', $data, lang('ui_even'));   
         }
         else{
     
@@ -92,7 +90,7 @@ class M_event extends CI_Controller
             $model->ActiveDate = get_formated_date($model->ActiveDate, 'd-m-Y');
             $model->InactiveDate = get_formated_date($model->InactiveDate, 'd-m-Y');
             $data =  $this->paging->set_data_page_edit($model);
-            load_view('m_event/edit', $data);  
+            load_view('m_event/edit', $data, lang('ui_even'));  
         }
         else
         {
@@ -128,7 +126,7 @@ class M_event extends CI_Controller
         {
             $this->session->set_flashdata('edit_warning_msg',$validate);
             $data =  $this->paging->set_data_page_edit($model);
-            load_view('m_event/edit', $data);   
+            load_view('m_event/edit', $data, lang('ui_even'));   
         }
         else
         {
@@ -184,6 +182,73 @@ class M_event extends CI_Controller
             }
         }
 
+    }
+
+    public function getAllData(){
+
+        $form = $this->paging->get_form_name_id();
+        if($this->M_groupusers->is_permitted($_SESSION[get_variable().'userdata']['M_Groupuser_Id'],$form['m_multimedia'],'Read'))
+        {
+            
+            $datatable = $this->datatables->addEntity('M_events');
+            $datatable
+            ->addDtRowId('Id')
+            ->addDtRowClass('rowdetail')
+            ->addColumn(
+                'Name', 
+                function($row){
+                    $url = base_url("mevent/edit/{$row->Id}");
+                    return "<a href = '{$url}' class = 'text-muted' >{$row->Name}</a>";
+                }
+            )->addColumn(
+                'Description', 
+                function($row){
+                    return $row->Description;
+                }
+            )->addColumn(
+                'ActiveDate', 
+                function($row){
+                    return get_formated_date($row->ActiveDate, "d M y");
+                }
+            )->addColumn(
+                'InactiveDate', 
+                function($row){
+                    return get_formated_date($row->InactiveDate, "d M y");
+                }    
+            )->addColumn(
+                'TimeStart', 
+                function($row){
+                    return $row->TimeStart;
+                }    
+            )->addColumn(
+                'TimeEnd', 
+                function($row){
+                    return $row->TimeEnd;
+                }
+            )->addColumn(
+                'Created', 
+                function($row){
+                    return $row->Created;
+                },
+                false
+            )->addColumn(
+                'Action', 
+                function($row){
+                        "<a href='#' rel='tooltip' title='lang('ui_delete')' class='btn-just-icon link-action delete'><i class='fa fa-trash'></i></a>";
+                        
+  
+                },
+                false,
+                false
+            );
+
+            echo json_encode($datatable->populate());
+        }
+        else
+        {
+            
+            $this->load->view('error/forbidden');
+        } 
     }
     
 }

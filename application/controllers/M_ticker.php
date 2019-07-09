@@ -14,9 +14,8 @@ class M_ticker extends CI_Controller {
         $form = $this->paging->get_form_name_id();
         if(is_permitted($_SESSION[get_variable().'userdata']['M_Groupuser_Id'],$form['m_ticker'],'Read'))
         {
-            $datapages = $this->M_tickers->get_list();
-            $data['model'] = $datapages;
-            load_view('m_ticker/index', $data);
+            
+            load_view('m_ticker/index', array(), lang("ui_ticker"));
         }
         else
         {   
@@ -32,7 +31,7 @@ class M_ticker extends CI_Controller {
         {
             $model = $this->M_tickers->new_object();
             $data =  $this->paging->set_data_page_add($model);
-            load_view('m_ticker/add', $data);  
+            load_view('m_ticker/add', $data, lang("ui_ticker"));  
         }
         else
         {
@@ -63,7 +62,7 @@ class M_ticker extends CI_Controller {
         {
             $this->session->set_flashdata('add_warning_msg',$validate);
             $data =  $this->paging->set_data_page_add($model);
-            load_view('m_ticker/add', $data);   
+            load_view('m_ticker/add', $data, lang("ui_ticker"));   
         }
         else{
     
@@ -83,7 +82,7 @@ class M_ticker extends CI_Controller {
         {
             $model = $this->M_tickers->get($id);
             $data =  $this->paging->set_data_page_edit($model);
-            load_view('m_ticker/edit', $data);  
+            load_view('m_ticker/edit', $data, lang("ui_ticker"));  
         }
         else
         {
@@ -115,7 +114,7 @@ class M_ticker extends CI_Controller {
         {
             $this->session->set_flashdata('edit_warning_msg',$validate);
             $data =  $this->paging->set_data_page_edit($model);
-            load_view('m_ticker/edit', $data);   
+            load_view('m_ticker/edit', $data, lang("ui_ticker"));   
         }
         else
         {
@@ -206,7 +205,7 @@ class M_ticker extends CI_Controller {
             $arrunsaved
         );
         //echo $unsaveddetail->getDaysFine();
-        echo json_encode($data);
+        echo json_encode($data, lang("ui_ticker"));
     }
 
     public function saveDetail(){
@@ -331,6 +330,62 @@ class M_ticker extends CI_Controller {
             }
         }
         echo "success";
+    }
+
+    public function getAllData(){
+
+        $form = $this->paging->get_form_name_id();
+        if($this->M_groupusers->is_permitted($_SESSION[get_variable().'userdata']['M_Groupuser_Id'],$form['m_ticker'],'Read'))
+        {
+            
+            $datatable = $this->datatables->addEntity('M_tickers');
+            $datatable
+            ->addDtRowId('Id')
+            ->addDtRowClass('rowdetail')
+            ->addColumn(
+                'Name', 
+                function($row){
+                    $url = base_url("mticker/edit/{$row->Id}");
+                    return "<a href = '{$url}' class = 'text-muted' >{$row->Name}</a>";
+                }
+            )->addColumn(
+                '', 
+                function($row){
+                    return $row->get_M_Event()->Name;
+                },
+                false,
+                false
+            )->addColumn(
+                '', 
+                function($row){
+                    return getEnumName("MultimediaAssignType", $row->AssignType);
+                },
+                false,
+                false
+            )->addColumn(
+                'Created', 
+                function($row){
+                    return $row->Created;
+                },
+                false
+            )->addColumn(
+                'Action', 
+                function($row){
+                        return "<a href='#' rel='tooltip' title='lang('ui_delete')' class='btn-just-icon link-action delete'><i class='fa fa-trash'></i></a>";
+                        
+  
+                },
+                false,
+                false
+            );
+
+            echo json_encode($datatable->populate());
+        }
+        else
+        {
+            
+            $this->load->view('error/forbidden');
+        } 
     }
 
 }

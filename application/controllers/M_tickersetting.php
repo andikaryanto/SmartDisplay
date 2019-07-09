@@ -14,9 +14,7 @@ class M_tickersetting extends CI_Controller {
         $form = $this->paging->get_form_name_id();
         if(is_permitted($_SESSION[get_variable().'userdata']['M_Groupuser_Id'],$form['m_tickersetting'],'Read'))
         {
-            $datapages = $this->M_tickersettings->get_list();
-            $data['model'] = $datapages;
-            load_view('m_tickersetting/index', $data);
+            load_view('m_tickersetting/index', array(), lang("ui_tickersetting"));
         }
         else
         {   
@@ -34,7 +32,7 @@ class M_tickersetting extends CI_Controller {
             $model->BackGroundColor = "#00cc66";
             $model->FontColor = "#000002";
             $data =  $this->paging->set_data_page_add($model);
-            load_view('m_tickersetting/add', $data);  
+            load_view('m_tickersetting/add', $data, lang("ui_tickersetting"));  
         }
         else
         {
@@ -66,7 +64,7 @@ class M_tickersetting extends CI_Controller {
         {
             $this->session->set_flashdata('add_warning_msg',$validate);
             $data =  $this->paging->set_data_page_add($model);
-            load_view('m_tickersetting/add', $data);   
+            load_view('m_tickersetting/add', $data, lang("ui_tickersetting"));   
         }
         else{
             $url = $this->upload($_FILES['file'], null, 'tickers');
@@ -86,7 +84,7 @@ class M_tickersetting extends CI_Controller {
         {
             $model = $this->M_tickersettings->get($id);
             $data =  $this->paging->set_data_page_edit($model);
-            load_view('m_tickersetting/edit', $data);  
+            load_view('m_tickersetting/edit', $data, lang("ui_tickersetting"));  
         }
         else
         {
@@ -119,7 +117,7 @@ class M_tickersetting extends CI_Controller {
         {
             $this->session->set_flashdata('edit_warning_msg',$validate);
             $data =  $this->paging->set_data_page_edit($model);
-            load_view('m_tickersetting/edit', $data);   
+            load_view('m_tickersetting/edit', $data, lang("ui_tickersetting"));   
         }
         else
         {
@@ -159,7 +157,7 @@ class M_tickersetting extends CI_Controller {
 
     private function upload($files, $id = null, $path = null, $isedit = false){
         $config = fileconfig_ftp();
-        $uploadpath = '/uploads/'.$path.'/';
+        $uploadpath = '/uploads/smartdisplay/'.$path.'/';
 
         $this->ftp->connect($config);
         if($isedit){
@@ -203,6 +201,82 @@ class M_tickersetting extends CI_Controller {
         {   
             $this->load->view('forbidden/forbidden');
         }   
+    }
+
+    public function getAllData(){
+
+        $form = $this->paging->get_form_name_id();
+        if($this->M_groupusers->is_permitted($_SESSION[get_variable().'userdata']['M_Groupuser_Id'],$form['m_tickersetting'],'Read'))
+        {
+            
+            $datatable = $this->datatables->addEntity('M_tickersettings');
+            $datatable
+            ->addDtRowId('Id')
+            ->addDtRowClass('rowdetail')
+            ->addColumn(
+                'Name', 
+                function($row){
+                    $url = base_url("mtickersetting/edit/{$row->Id}");
+                    return "<a href = '{$url}' class = 'text-muted' >{$row->Name}</a>";
+                }
+            )->addColumn(
+                'BackGroundColor', 
+                function($row){
+                    return "<div class='progress'>
+                    <div style='width: 100%; background: {$row->BackGroundColor}' aria-valuemax='100' aria-valuemin='0' aria-valuenow='60' role='progressbar' class='red progress-bar'>
+                   
+                   </div>
+                </div>";
+                }
+            )->addColumn(
+                'FontColor', 
+                function($row){
+                    return "<div class='progress'>
+                    <div style='width: 100%; background: {$row->FontColor}' aria-valuemax='100' aria-valuemin='0' aria-valuenow='60' role='progressbar' class='red progress-bar'>
+                   
+                   </div>
+                </div>";
+                }
+            )->addColumn(
+                'Height', 
+                function($row){
+                    return $row->Height;
+                }
+            
+            )->addColumn(
+                'IsActive', 
+                function($row){
+                    if($row->IsActive)
+                        return "<a><i class='fa fa-check'></i></a>";
+                    else
+                        return "<td><a><i class='fa fa-close'></i></a>";
+                }
+            )->addColumn(
+                'Height', 
+                function($row){
+                    return $row->Height;
+                }
+            )->addColumn(
+                'Action', 
+                function($row){
+                    $btnclass = "";
+                    if(!$row->IsActive)  
+                        $btnclass = "text-danger";
+
+                    return "<a href='#' class='$btnclass btn-just-icon link-action activate'><i class='fa fa-plug'></i></a>";
+  
+                },
+                false,
+                false
+            );
+
+            echo json_encode($datatable->populate());
+        }
+        else
+        {
+            
+            $this->load->view('error/forbidden');
+        } 
     }
 
 }

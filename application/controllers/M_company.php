@@ -24,7 +24,7 @@ class M_company extends CI_Controller
                 $model = $this->M_companies->new_object();
 
             $data =  $this->paging->set_data_page_add($model);
-            load_view('m_company/add', $data);
+            load_view('m_company/add', $data, lang("ui_company"));
         }
         else
         {   
@@ -39,7 +39,7 @@ class M_company extends CI_Controller
         {
             $model = $this->M_companies->new_object();
             $data =  $this->paging->set_data_page_add($model);
-            load_view('m_company/add', $data);  
+            load_view('m_company/add', $data, lang("ui_company"));  
         }
         else
         {
@@ -83,7 +83,7 @@ class M_company extends CI_Controller
         {
             $this->session->set_flashdata('add_warning_msg',$validate);
             $data =  $this->paging->set_data_page_add($model);
-            load_view('m_company/add', $data);   
+            load_view('m_company/add', $data, lang("ui_company"));   
         }
         else{
     

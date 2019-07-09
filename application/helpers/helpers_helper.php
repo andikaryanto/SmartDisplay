@@ -42,10 +42,10 @@ function replaceSession($name, $data){
     $CI->session->set_userdata($name, $data);
 }
 
-function load_view($viewName, $data = null)
+function load_view($viewName, $data = null, $title = "")
 {
     $CI =& get_instance();
-    $CI->paging->load_header();
+    $CI->paging->load_header($title. " - SMART DISPLAY");
     $CI->load->view($viewName, $data);
     $CI->paging->load_footer();
 }

@@ -42,7 +42,7 @@ class Paging {
         return $data;
     }
 
-    public function load_header()
+    public function load_header($title = "")
     {
 
         $CI =& get_instance();
@@ -66,6 +66,7 @@ class Paging {
         $data['multimediamenu'] = $multimediamenu;
         $data['transactionmenu'] = $transactionmenu;
         $data['settingmenu'] = $settingmenu;
+        $data['title'] = $title;
 
         //print_r($data['mastermenu']);
         // foreach($mastermenu as $menu){

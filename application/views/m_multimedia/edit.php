@@ -388,6 +388,10 @@
           "defaultContent": '<a href="#" rel="tooltip" title="<?=  lang('ui_delete')?>" class="btn-just-icon link-action text-right delete"><i class="fa fa-trash"></i></a>'
         },
         {
+           "className": "td-actions text-right", 
+           "targets": [ 2 ] 
+        },
+        {
           targets: 'disabled-sorting', 
           orderable: false
         },

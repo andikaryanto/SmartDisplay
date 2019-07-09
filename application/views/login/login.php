@@ -3,7 +3,7 @@
 <html><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <title>Bootstrap Dashboard by Bootstrapious.com</title>
+    <title>Login</title>
     <meta name="description" content="">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="robots" content="all,follow">
@@ -38,7 +38,7 @@
       <div class="row min-vh-100">
         <div class="col-md-5 col-lg-6 col-xl-4 px-lg-5 d-flex align-items-center">
           <div class="w-100 py-5">
-            <div class="text-center"><img src="<?= base_url('assets/bootstrapdashboard/IMG/svg/brand-1.svg')?>" alt="..." style="max-width: 6rem;" class="img-fluid mb-4">
+            <div class="text-center"><img src="<?= base_url('assets/bootstrapdashboard/img/SVG/brand-1.svg')?>" alt="..." style="max-width: 6rem;" class="img-fluid mb-4">
               <h1 class="display-4 mb-3">Sign in</h1>
             </div>
             <form  method = "post" action = "<?php echo base_url('login/dologin');?>" class="text-left form-validate">

@@ -54,53 +54,7 @@
                     <th class="disabled-sorting text-right"><?=  lang('ui_actions')?></th>
                   </tr>
                 </tfoot>
-                <tbody>
-                <?php
-                  foreach ($model as $value)
-                  {
-                ?>
-                    <tr role = "row" id = <?= $value->Id?>>
-                      <td><a href= "<?= base_url('mtickersetting/edit/'.$value->Id);?>" class = "text-muted"><?= $value->Name?></a></td>
-                      <!-- <td style = "color:<?= $value->BackGroundColor?>"><?= $value->BackGroundColor?></td> -->
-                      <td>
-												<div class="progress">
-													<div style="width: 100%; background:<?= $value->BackGroundColor?>" aria-valuemax="100" aria-valuemin="0" aria-valuenow="60" role="progressbar" class="red progress-bar">
-													<!-- <span>60%</span> -->
-												   </div>
-												</div>
-											</td>
-                      <!-- <td style = "color:<?= $value->FontColor?>"><?= $value->FontColor?></td> -->
-                      <td>
-												<div class="progress">
-													<div style="width: 100%; background:<?= $value->FontColor?>" aria-valuemax="100" aria-valuemin="0" aria-valuenow="60" role="progressbar" class="red progress-bar">
-													<!-- <span>60%</span> -->
-												   </div>
-												</div>
-                      </td>
-                      
-                      <td><?= $value->Height?>%</td>
-                      <td><?= $value->IsActive?></td>
-                      <td><?= $value->Created?></td>
-
-                      <?php 
-                      if($value->IsActive == 1 ) {
-                        $btnclass = "";
-                      
-                      } else {
-                        $btnclass = "text-danger";
-                      }
-                      ?>
-
-                      <td class = "td-actions text-right">
-                        <a href="#" rel="tooltip" title="<?=  lang('ui_delete')?>" class="btn-just-icon link-action delete"><i class="fa fa-trash"></i></a>
-                        <a href="#" class="<?= $btnclass ?> btn-just-icon link-action activate"><i class="fa fa-plug"></i></a>
-                        
-                      </td>
-                    </tr>
-                <?php
-                  }
-                ?>
-                </tbody>
+                
               </table>
             </div>
           </div>
@@ -133,6 +87,10 @@
         {
           targets: 'disabled-sorting', 
           orderable: false
+        },
+        {
+           "className": "td-actions text-right", 
+           "targets": [ 6 ] 
         }
       ],
       columns: [
@@ -144,6 +102,13 @@
         { responsivePriority: 7 },
         { responsivePriority: 2 }
       ],
+      "processing": true,
+      "serverSide": true,
+      ajax:{
+        url : "<?= base_url('M_tickersetting/getAllData')?>",
+        dataSrc : 'data'
+      },
+      stateSave: true
     }); 
 
      // Delete a record

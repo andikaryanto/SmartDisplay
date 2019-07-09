@@ -18,9 +18,7 @@ class M_player extends CI_Controller
         if(is_permitted($_SESSION[get_variable().'userdata']['M_Groupuser_Id'],$form['m_player'],'Read'))
         {
 
-            $datapages = $this->M_players->get_list();
-            $data['model'] = $datapages;
-            load_view('m_player/index', $data);
+            load_view('m_player/index', array(), lang("ui_player"));
         }
        else
         {   
@@ -46,7 +44,7 @@ class M_player extends CI_Controller
                 redirect('mplayer');
             } else {
                 $data = $this->paging->set_data_page_add($model);
-                load_view('m_player/add', $data);   
+                load_view('m_player/add', $data, lang("ui_player"));   
             }
         }
         else
@@ -77,7 +75,7 @@ class M_player extends CI_Controller
         {
             $this->session->set_flashdata('add_warning_msg',$validate); 
             $data =  $this->paging->set_data_page_add($model);
-            load_view('m_player/add', $data);   
+            load_view('m_player/add', $data, lang("ui_player"));   
         }
         else{
             $model->save();
@@ -99,7 +97,7 @@ class M_player extends CI_Controller
             $model = $this->M_players->get($id);
             $data =  $this->paging->set_data_page_edit($model);
             //echo json_encode($edit);
-            load_view('m_player/edit', $data);   
+            load_view('m_player/edit', $data, lang("ui_player"));   
         }
         else{
             
@@ -129,7 +127,7 @@ class M_player extends CI_Controller
         {
             $this->session->set_flashdata('edit_warning_msg',$validate);
             $data =  $this->paging->set_data_page_edit($model);
-            load_view('m_player/edit', $data);   
+            load_view('m_player/edit', $data, lang("ui_player"));   
         }
         else
         {
@@ -160,6 +158,58 @@ class M_player extends CI_Controller
 
     public function register(){
         $this->load->view('m_player/register');  
+    }
+
+    public function getAllData(){
+
+        $form = $this->paging->get_form_name_id();
+        if($this->M_groupusers->is_permitted($_SESSION[get_variable().'userdata']['M_Groupuser_Id'],$form['m_player'],'Read'))
+        {
+            
+            $datatable = $this->datatables->addEntity('M_players');
+            $datatable
+            ->addDtRowId('Id')
+            ->addDtRowClass('rowdetail')
+            ->addColumn(
+                'Name', 
+                function($row){
+                    $url = base_url("mplayer/edit/{$row->Id}");
+                    return "<a href = '{$url}' class = 'text-muted' >{$row->Name}</a>";
+                }
+            )->addColumn(
+                '', 
+                function($row){
+                    return $row->get_M_Groupplayer()->GroupName;
+                }
+            )->addColumn(
+                'IsActive', 
+                function($row){
+                    if($row->IsActive)
+                        return "<a><i class='fa fa-check'></i></a>";
+                    else
+                        return "<td><a><i class='fa fa-close'></i></a>";
+                }
+            )->addColumn(
+                'Action', 
+                function($row){
+                    $btnclass = "";
+                    if(!$row->IsActive)  
+                        $btnclass = "text-danger";
+
+                    return "<a href='#' class='$btnclass btn-just-icon link-action activate'><i class='fa fa-plug'></i></a>";
+  
+                },
+                false,
+                false
+            );
+
+            echo json_encode($datatable->populate());
+        }
+        else
+        {
+            
+            $this->load->view('error/forbidden');
+        } 
     }
     
 }

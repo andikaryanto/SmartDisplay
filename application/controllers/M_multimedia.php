@@ -15,9 +15,7 @@ class M_multimedia extends CI_Controller {
         $form = $this->paging->get_form_name_id();
         if(is_permitted($_SESSION[get_variable().'userdata']['M_Groupuser_Id'],$form['m_multimedia'],'Read'))
         {
-            $datapages = $this->M_multimedias->get_list();
-            $data['model'] = $datapages;
-            load_view('m_multimedia/index', $data);
+            load_view('m_multimedia/index', array(), lang("ui_multimedia"));
         }
         else
         {   
@@ -33,7 +31,7 @@ class M_multimedia extends CI_Controller {
         {
             $model = $this->M_multimedias->new_object();
             $data =  $this->paging->set_data_page_add($model);
-            load_view('m_multimedia/add', $data);  
+            load_view('m_multimedia/add', $data, lang("ui_multimedia"));  
         }
         else
         {
@@ -66,7 +64,7 @@ class M_multimedia extends CI_Controller {
         {
             $this->session->set_flashdata('add_warning_msg',$validate);
             $data =  $this->paging->set_data_page_add($model);
-            load_view('m_multimedia/add', $data);   
+            load_view('m_multimedia/add', $data, lang("ui_multimedia"));   
         }
         else{
     
@@ -87,7 +85,7 @@ class M_multimedia extends CI_Controller {
         {
             $model = $this->M_multimedias->get($id);
             $data =  $this->paging->set_data_page_edit($model);
-            load_view('m_multimedia/edit', $data);  
+            load_view('m_multimedia/edit', $data, lang("ui_multimedia"));  
         }
         else
         {
@@ -122,7 +120,7 @@ class M_multimedia extends CI_Controller {
         {
             $this->session->set_flashdata('edit_warning_msg',$validate);
             $data =  $this->paging->set_data_page_edit($model);
-            load_view('m_multimedia/edit', $data);   
+            load_view('m_multimedia/edit', $data, lang("ui_multimedia"));   
         }
         else
         {
@@ -171,13 +169,14 @@ class M_multimedia extends CI_Controller {
 
     private function upload($files, $id = null, $path = null, $isedit = false){
         $config = fileconfig_ftp();
-        $uploadpath = '/uploads/'.$path.'/';
+        $uploadpath = '/uploads/smartdisplay/'.$path.'/';
 
         $this->ftp->connect($config);
         if($isedit){
             $photos = $this->M_multiledias->get($id);
-            if($photos)
+            if($photos){
                 $this->ftp->delete_file($photo->Path);
+            }
         }
 
         $filename = get_current_date('Ymd_His')."_".$files['name'];
@@ -361,5 +360,61 @@ class M_multimedia extends CI_Controller {
         echo "success";
     }
 
+    public function getAllData(){
+
+        $form = $this->paging->get_form_name_id();
+        if($this->M_groupusers->is_permitted($_SESSION[get_variable().'userdata']['M_Groupuser_Id'],$form['m_multimedia'],'Read'))
+        {
+            
+            $datatable = $this->datatables->addEntity('M_multimedias');
+            $datatable
+            ->addDtRowId('Id')
+            ->addDtRowClass('rowdetail')
+            ->addColumn(
+                'Name', 
+                function($row){
+                    $url = base_url("mmultimedia/edit/{$row->Id}");
+                    return "<a href = '{$url}' class = 'text-muted' >{$row->Name}</a>";
+                }
+            )->addColumn(
+                '', 
+                function($row){
+                    return $row->get_M_Event()->Name;
+                }
+            )->addColumn(
+                '', 
+                function($row){
+                    return getEnumName("MultimediaType", $row->Type);
+                }
+            )->addColumn(
+                '', 
+                function($row){
+                    return getEnumName("MultimediaAssignType", $row->AssignType);
+                }
+            )->addColumn(
+                'Created', 
+                function($row){
+                    return $row->Created;
+                },
+                false
+            )->addColumn(
+                'Action', 
+                function($row){
+                        "<a href='#' rel='tooltip' title='lang('ui_delete')' class='btn-just-icon link-action delete'><i class='fa fa-trash'></i></a>";
+                        
+  
+                },
+                false,
+                false
+            );
+
+            echo json_encode($datatable->populate());
+        }
+        else
+        {
+            
+            $this->load->view('error/forbidden');
+        } 
+    }
 
 }

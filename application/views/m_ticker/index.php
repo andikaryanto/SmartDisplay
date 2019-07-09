@@ -50,24 +50,6 @@
                     <th class="disabled-sorting text-right"><?=  lang('ui_actions')?></th>
                   </tr>
                 </tfoot>
-                <tbody>
-                <?php
-                  foreach ($model as $value)
-                  {
-                ?>
-                    <tr role = "row" id = <?= $value->Id?>>
-                      <td><a href= "<?= base_url('mticker/edit/'.$value->Id);?>" class = "text-muted"><?= $value->Name?></a></td>
-                      <td><?= $value->get_M_Event()->Name?></td>
-                      <td><?= getEnumName('MultimediaAssignType', $value->AssignType)?></td>
-                      <td><?= $value->Created?></td>
-                      <td class = "td-actions text-right">
-                        <a href="#" rel="tooltip" title="<?=  lang('ui_delete')?>" class="btn-just-icon link-action delete"><i class="fa fa-trash"></i></a>
-                      </td>
-                    </tr>
-                <?php
-                  }
-                ?>
-                </tbody>
               </table>
             </div>
           </div>
@@ -100,6 +82,10 @@
         {
           targets: 'disabled-sorting', 
           orderable: false
+        },
+        {
+           "className": "td-actions text-right", 
+           "targets": [ 4 ] 
         }
       ],
       columns: [
@@ -109,6 +95,13 @@
         { responsivePriority: 5 },
         { responsivePriority: 2 }
       ],
+      "processing": true,
+      "serverSide": true,
+      ajax:{
+        url : "<?= base_url('M_ticker/getAllData')?>",
+        dataSrc : 'data'
+      },
+      stateSave: true
     }); 
 
      // Delete a record
